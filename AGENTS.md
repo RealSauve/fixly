@@ -1,6 +1,6 @@
-# AGENTS.md: Complaint Tracker
+# AGENTS.md: Fixly
 
-You are building **Complaint Tracker**, a minimal web app that lets a small support team log customer complaints, assign them, track their status and keep internal notes. It is a portfolio prototype that runs entirely in the browser.
+You are building **Fixly**, a minimal complaint tracker that lets a small support team log customer complaints, assign them, track their status and keep internal notes. It is a portfolio prototype that runs entirely in the browser.
 
 ## Read these first, in this order
 1. `docs/PRD.md` is the source of truth for what to build and how it behaves.

@@ -16,7 +16,7 @@ Task: set up the project.
 2. Install only: @tabler/icons-react.
 3. Create the folder structure from AGENTS.md.
 4. Create src/styles/tokens.css using the exact tokens from docs/DESIGN.md, plus base.css (reset, body font, focus ring) and components.css (empty for now).
-5. Add the Google Fonts links to index.html and set the page title to "Complaint Tracker".
+5. Add the Google Fonts links to index.html and set the page title to "Fixly".
 6. Replace the starter content with a blank App that shows the top bar (product name only) and an empty page area.
 7. Copy docs/seed-data.json to src/data/seed.json.
 

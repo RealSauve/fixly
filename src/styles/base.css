@@ -72,12 +72,10 @@ a {
   text-decoration: none;
 }
 
-.topbar__mark {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border-radius: 4px;
-  background: var(--accent);
+.topbar__logo {
+  display: block;
+  width: auto;
+  height: 28px;
 }
 
 .page {

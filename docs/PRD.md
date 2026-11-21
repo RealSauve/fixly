@@ -1,4 +1,4 @@
-# PRD: Complaint Tracker (MVP, build specification)
+# PRD: Fixly (Complaint Tracker MVP, build specification)
 
 Version 1.1 · 20 November 2026 · Owner: Owoidoho Ukoh · Builder: OpenCode (AI-assisted)
 
@@ -8,7 +8,7 @@ This document is written for the builder. It states exactly what to build, how e
 
 ## 1. Overview
 
-Complaint Tracker is a lightweight B2B web app for small and medium-sized businesses. A support team uses it to **log** customer complaints, **assign** an owner, **track** status and priority, and keep **internal notes**, all from one place. A manager can see at a glance what still needs attention.
+Fixly is a lightweight B2B complaint tracker for small and medium-sized businesses. A support team uses it to **log** customer complaints, **assign** an owner, **track** status and priority, and keep **internal notes**, all from one place. A manager can see at a glance what still needs attention.
 
 **Positioning:** essential complaint tracking without the complexity of a full helpdesk (Freshdesk, Zoho Desk). The reference product is Freshdesk, used for patterns only, not copied.
 
@@ -56,7 +56,7 @@ The app has **two screens and one drawer**. Routes use the URL hash so refresh a
 An unknown route or unknown complaint id shows a short "Complaint not found" message with a link back to the list.
 
 ### 5.1 Global layout
-- **Top bar** (all screens): product name "Complaint Tracker" on the left (links to `#/`), "New complaint" primary button on the right (home screen only; on the detail screen the button is hidden).
+- **Top bar** (all screens): product name "Fixly" on the left (links to `#/`), "New complaint" primary button on the right (home screen only; on the detail screen the button is hidden).
 - **Footer** (small, muted): "Prototype. Data is saved in this browser only." and a "Reset demo data" text button.
 - Page content is centred, max width 1120px, 24px side padding (16px on mobile).
 

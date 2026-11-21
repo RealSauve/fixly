@@ -12,10 +12,10 @@
   --text-faint: #8F8F89;
 
   /* accent */
-  --accent: #3B5BDB;
-  --accent-hover: #3050C4;
-  --accent-soft: #EDF1FD;
-  --focus-ring: 0 0 0 3px rgba(59, 91, 219, 0.35);
+  --accent: #0F52FF;
+  --accent-hover: #0B45D6;
+  --accent-soft: #EDF1FF;
+  --focus-ring: 0 0 0 3px rgba(15, 82, 255, 0.45);
 
   /* status pills (bg / text) */
   --status-new-bg: #E8F0FE;       --status-new-text: #2447B8;
@@ -40,6 +40,8 @@
   --radius: 8px;
   --radius-sm: 6px;
   --radius-pill: 999px;
+  --shadow-drawer: 0 8px 32px rgba(0, 0, 0, 0.12);
+  --shadow-toast: 0 8px 24px rgba(0, 0, 0, 0.18);
   --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
   --space-5: 24px; --space-6: 32px; --space-7: 48px;
 

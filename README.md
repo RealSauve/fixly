@@ -1,6 +1,6 @@
-# Complaint Tracker
+# Fixly
 
-A minimal web app for small support teams to log customer complaints, assign them, track status and priority, and keep internal notes. Prototype: runs in the browser and stores data in localStorage.
+Fixly is a minimal complaint tracker for small support teams: log complaints, assign an owner, track status and priority, and keep internal notes. Prototype: runs in the browser and stores data in localStorage.
 
 ## Run it
 ```bash

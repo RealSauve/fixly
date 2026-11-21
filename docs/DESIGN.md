@@ -1,4 +1,4 @@
-# DESIGN.md: Complaint Tracker
+# DESIGN.md: Fixly
 
 Direction: **clean, light, calm SaaS.** White and warm-neutral surfaces, one accent colour, generous spacing, thin borders, almost no shadows. It should feel quiet and trustworthy, like a well-made notebook rather than a dashboard full of widgets.
 
