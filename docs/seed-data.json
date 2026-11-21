@@ -1,0 +1,699 @@
+{
+  "version": 1,
+  "counter": 15,
+  "staff": [
+    {
+      "id": "s1",
+      "name": "Adaeze Obi",
+      "role": "Support Lead"
+    },
+    {
+      "id": "s2",
+      "name": "Tunde Bakare",
+      "role": "Support Agent"
+    },
+    {
+      "id": "s3",
+      "name": "Chioma Eze",
+      "role": "Billing Specialist"
+    },
+    {
+      "id": "s4",
+      "name": "Ibrahim Musa",
+      "role": "Technical Support"
+    },
+    {
+      "id": "s5",
+      "name": "Funke Adeyemi",
+      "role": "Support Agent"
+    }
+  ],
+  "complaints": [
+    {
+      "id": "c-1",
+      "reference": "CMP-0001",
+      "customerName": "Amaka Nwosu",
+      "customerEmail": "amaka.nwosu@example.com",
+      "customerPhone": "+234 803 555 0142",
+      "subject": "Order arrived damaged",
+      "description": "The blender I ordered arrived with a cracked jug and a dented base. The box was torn when the courier handed it over.",
+      "category": "Delivery",
+      "priority": "High",
+      "status": "In Progress",
+      "assigneeId": "s2",
+      "createdAt": "2026-11-03T09:15:00+01:00",
+      "updatedAt": "2026-11-03T18:43:00+01:00",
+      "resolvedAt": null
+    },
+    {
+      "id": "c-2",
+      "reference": "CMP-0002",
+      "customerName": "Ibrahim Lawal",
+      "customerEmail": "ibrahim.lawal@example.com",
+      "customerPhone": "+234 806 555 0188",
+      "subject": "Charged twice for one order",
+      "description": "My card was debited two times for the same order on 2 November. I only received one confirmation email.",
+      "category": "Billing & Refunds",
+      "priority": "High",
+      "status": "Resolved",
+      "assigneeId": "s3",
+      "createdAt": "2026-11-03T11:40:00+01:00",
+      "updatedAt": "2026-11-05T02:15:00+01:00",
+      "resolvedAt": "2026-11-05T01:08:00+01:00"
+    },
+    {
+      "id": "c-3",
+      "reference": "CMP-0003",
+      "customerName": "Ngozi Okafor",
+      "customerEmail": "ngozi.okafor@example.com",
+      "customerPhone": "+234 809 555 0121",
+      "subject": "Internet down for three days",
+      "description": "Service has been off since Monday. I run a small shop and cannot process online orders.",
+      "category": "Service Outage",
+      "priority": "High",
+      "status": "In Progress",
+      "assigneeId": "s4",
+      "createdAt": "2026-11-05T08:30:00+01:00",
+      "updatedAt": "2026-11-05T14:51:00+01:00",
+      "resolvedAt": null
+    },
+    {
+      "id": "c-4",
+      "reference": "CMP-0004",
+      "customerName": "Chinedu Eze",
+      "customerEmail": "chinedu.eze@example.com",
+      "customerPhone": "+234 701 555 0165",
+      "subject": "Blender stopped working after a week",
+      "description": "The motor makes a humming noise and the blades do not spin.",
+      "category": "Product Quality",
+      "priority": "Medium",
+      "status": "Waiting on Customer",
+      "assigneeId": "s2",
+      "createdAt": "2026-11-06T14:05:00+01:00",
+      "updatedAt": "2026-11-06T20:26:00+01:00",
+      "resolvedAt": null
+    },
+    {
+      "id": "c-5",
+      "reference": "CMP-0005",
+      "customerName": "Bolanle Adewale",
+      "customerEmail": "bolanle.adewale@example.com",
+      "customerPhone": "",
+      "subject": "Cannot log in after password reset",
+      "description": "I reset my password twice but the login page still says my details are wrong.",
+      "category": "Account Access",
+      "priority": "Medium",
+      "status": "New",
+      "assigneeId": null,
+      "createdAt": "2026-11-18T10:20:00+01:00",
+      "updatedAt": "2026-11-18T10:20:00+01:00",
+      "resolvedAt": null
+    },
+    {
+      "id": "c-6",
+      "reference": "CMP-0006",
+      "customerName": "Emeka Obi",
+      "customerEmail": "",
+      "customerPhone": "+234 812 555 0107",
+      "subject": "Parcel marked delivered but not received",
+      "description": "Tracking says delivered yesterday at 3pm. Nobody at home received anything.",
+      "category": "Delivery",
+      "priority": "High",
+      "status": "New",
+      "assigneeId": null,
+      "createdAt": "2026-11-19T08:50:00+01:00",
+      "updatedAt": "2026-11-19T08:50:00+01:00",
+      "resolvedAt": null
+    },
+    {
+      "id": "c-7",
+      "reference": "CMP-0007",
+      "customerName": "Fatima Bello",
+      "customerEmail": "fatima.bello@example.com",
+      "customerPhone": "+234 805 555 0193",
+      "subject": "Refund promised but not received",
+      "description": "I was told on 5 November that my refund would arrive within 5 working days. It is now two weeks.",
+      "category": "Billing & Refunds",
+      "priority": "Medium",
+      "status": "Waiting on Customer",
+      "assigneeId": "s3",
+      "createdAt": "2026-11-07T16:10:00+01:00",
+      "updatedAt": "2026-11-08T16:38:00+01:00",
+      "resolvedAt": null
+    },
+    {
+      "id": "c-8",
+      "reference": "CMP-0008",
+      "customerName": "Tope Alabi",
+      "customerEmail": "tope.alabi@example.com",
+      "customerPhone": "+234 802 555 0150",
+      "subject": "Wrong company name on invoice",
+      "description": "The invoice shows my old company name. I need it corrected for my accounts.",
+      "category": "Other",
+      "priority": "Low",
+      "status": "Resolved",
+      "assigneeId": "s5",
+      "createdAt": "2026-11-09T12:00:00+01:00",
+      "updatedAt": "2026-11-09T22:28:00+01:00",
+      "resolvedAt": "2026-11-09T21:21:00+01:00"
+    },
+    {
+      "id": "c-9",
+      "reference": "CMP-0009",
+      "customerName": "Samuel Udo",
+      "customerEmail": "samuel.udo@example.com",
+      "customerPhone": "+234 807 555 0176",
+      "subject": "Slow speeds in the evening",
+      "description": "Between 7pm and 10pm the connection drops to almost nothing, even though it is fine during the day.",
+      "category": "Service Outage",
+      "priority": "Low",
+      "status": "New",
+      "assigneeId": "s4",
+      "createdAt": "2026-11-17T19:30:00+01:00",
+      "updatedAt": "2026-11-18T11:37:00+01:00",
+      "resolvedAt": null
+    },
+    {
+      "id": "c-10",
+      "reference": "CMP-0010",
+      "customerName": "Grace Ogunleye",
+      "customerEmail": "grace.ogunleye@example.com",
+      "customerPhone": "+234 810 555 0114",
+      "subject": "Wrong size delivered",
+      "description": "I ordered a size 40 but received a size 43. I would like an exchange.",
+      "category": "Product Quality",
+      "priority": "Medium",
+      "status": "Resolved",
+      "assigneeId": "s2",
+      "createdAt": "2026-11-10T13:25:00+01:00",
+      "updatedAt": "2026-11-12T20:53:00+01:00",
+      "resolvedAt": "2026-11-12T20:53:00+01:00"
+    },
+    {
+      "id": "c-11",
+      "reference": "CMP-0011",
+      "customerName": "Yusuf Danjuma",
+      "customerEmail": "yusuf.danjuma@example.com",
+      "customerPhone": "+234 813 555 0132",
+      "subject": "Delivery delayed by two weeks",
+      "description": "My order was promised for 6 November. It is still not delivered and nobody answers the dispatch line.",
+      "category": "Delivery",
+      "priority": "High",
+      "status": "In Progress",
+      "assigneeId": "s2",
+      "createdAt": "2026-11-12T09:00:00+01:00",
+      "updatedAt": "2026-11-12T15:21:00+01:00",
+      "resolvedAt": null
+    },
+    {
+      "id": "c-12",
+      "reference": "CMP-0012",
+      "customerName": "Kemi Ajayi",
+      "customerEmail": "kemi.ajayi@example.com",
+      "customerPhone": "+234 806 555 0159",
+      "subject": "Account locked after failed attempts",
+      "description": "My account was locked after a few wrong password attempts and the unlock email never arrives.",
+      "category": "Account Access",
+      "priority": "High",
+      "status": "Resolved",
+      "assigneeId": "s1",
+      "createdAt": "2026-11-13T15:45:00+01:00",
+      "updatedAt": "2026-11-13T20:13:00+01:00",
+      "resolvedAt": "2026-11-13T20:06:00+01:00"
+    },
+    {
+      "id": "c-13",
+      "reference": "CMP-0013",
+      "customerName": "Obinna Nnadi",
+      "customerEmail": "obinna.nnadi@example.com",
+      "customerPhone": "+234 703 555 0138",
+      "subject": "Unclear charge on statement",
+      "description": "There is a 4,500 naira charge on my statement that I do not recognise.",
+      "category": "Billing & Refunds",
+      "priority": "Low",
+      "status": "Waiting on Customer",
+      "assigneeId": "s3",
+      "createdAt": "2026-11-14T11:15:00+01:00",
+      "updatedAt": "2026-11-14T14:36:00+01:00",
+      "resolvedAt": null
+    },
+    {
+      "id": "c-14",
+      "reference": "CMP-0014",
+      "customerName": "Halima Sani",
+      "customerEmail": "halima.sani@example.com",
+      "customerPhone": "+234 809 555 0171",
+      "subject": "Request to update delivery address",
+      "description": "I moved to a new flat and would like future deliveries to go to the new address.",
+      "category": "Other",
+      "priority": "Low",
+      "status": "New",
+      "assigneeId": null,
+      "createdAt": "2026-11-19T09:30:00+01:00",
+      "updatedAt": "2026-11-19T09:30:00+01:00",
+      "resolvedAt": null
+    },
+    {
+      "id": "c-15",
+      "reference": "CMP-0015",
+      "customerName": "Segun Balogun",
+      "customerEmail": "segun.balogun@example.com",
+      "customerPhone": "+234 802 555 0184",
+      "subject": "Item missing from the box",
+      "description": "I ordered a set of three food containers but only two were in the box.",
+      "category": "Product Quality",
+      "priority": "Medium",
+      "status": "New",
+      "assigneeId": null,
+      "createdAt": "2026-11-18T16:40:00+01:00",
+      "updatedAt": "2026-11-18T16:40:00+01:00",
+      "resolvedAt": null
+    }
+  ],
+  "events": [
+    {
+      "id": "e-1",
+      "complaintId": "c-1",
+      "type": "created",
+      "text": "Complaint logged",
+      "actorId": "s1",
+      "createdAt": "2026-11-03T09:15:00+01:00"
+    },
+    {
+      "id": "e-2",
+      "complaintId": "c-1",
+      "type": "assignee",
+      "text": "Assigned to Tunde Bakare",
+      "actorId": "s1",
+      "createdAt": "2026-11-03T10:22:00+01:00"
+    },
+    {
+      "id": "e-3",
+      "complaintId": "c-1",
+      "type": "status",
+      "text": "Status changed from New to In Progress",
+      "actorId": "s2",
+      "createdAt": "2026-11-03T11:29:00+01:00"
+    },
+    {
+      "id": "e-4",
+      "complaintId": "c-1",
+      "type": "priority",
+      "text": "Priority changed from Medium to High",
+      "actorId": "s2",
+      "createdAt": "2026-11-03T14:36:00+01:00"
+    },
+    {
+      "id": "e-5",
+      "complaintId": "c-1",
+      "type": "note",
+      "text": "Photos received on WhatsApp. Courier damage claim opened.",
+      "actorId": "s2",
+      "createdAt": "2026-11-03T18:43:00+01:00"
+    },
+    {
+      "id": "e-6",
+      "complaintId": "c-2",
+      "type": "created",
+      "text": "Complaint logged",
+      "actorId": "s1",
+      "createdAt": "2026-11-03T11:40:00+01:00"
+    },
+    {
+      "id": "e-7",
+      "complaintId": "c-2",
+      "type": "assignee",
+      "text": "Assigned to Chioma Eze",
+      "actorId": "s1",
+      "createdAt": "2026-11-03T12:47:00+01:00"
+    },
+    {
+      "id": "e-8",
+      "complaintId": "c-2",
+      "type": "status",
+      "text": "Status changed from New to In Progress",
+      "actorId": "s3",
+      "createdAt": "2026-11-03T13:54:00+01:00"
+    },
+    {
+      "id": "e-9",
+      "complaintId": "c-2",
+      "type": "note",
+      "text": "Duplicate charge confirmed on the payment gateway. Refund requested.",
+      "actorId": "s3",
+      "createdAt": "2026-11-03T19:01:00+01:00"
+    },
+    {
+      "id": "e-10",
+      "complaintId": "c-2",
+      "type": "status",
+      "text": "Status changed from In Progress to Resolved",
+      "actorId": "s3",
+      "createdAt": "2026-11-05T01:08:00+01:00"
+    },
+    {
+      "id": "e-11",
+      "complaintId": "c-2",
+      "type": "note",
+      "text": "Refund processed. Customer informed by phone.",
+      "actorId": "s3",
+      "createdAt": "2026-11-05T02:15:00+01:00"
+    },
+    {
+      "id": "e-12",
+      "complaintId": "c-3",
+      "type": "created",
+      "text": "Complaint logged",
+      "actorId": "s1",
+      "createdAt": "2026-11-05T08:30:00+01:00"
+    },
+    {
+      "id": "e-13",
+      "complaintId": "c-3",
+      "type": "assignee",
+      "text": "Assigned to Ibrahim Musa",
+      "actorId": "s1",
+      "createdAt": "2026-11-05T09:37:00+01:00"
+    },
+    {
+      "id": "e-14",
+      "complaintId": "c-3",
+      "type": "status",
+      "text": "Status changed from New to In Progress",
+      "actorId": "s4",
+      "createdAt": "2026-11-05T11:44:00+01:00"
+    },
+    {
+      "id": "e-15",
+      "complaintId": "c-3",
+      "type": "note",
+      "text": "Field team dispatched. Fibre cut suspected on the Yaba route.",
+      "actorId": "s4",
+      "createdAt": "2026-11-05T14:51:00+01:00"
+    },
+    {
+      "id": "e-16",
+      "complaintId": "c-4",
+      "type": "created",
+      "text": "Complaint logged",
+      "actorId": "s1",
+      "createdAt": "2026-11-06T14:05:00+01:00"
+    },
+    {
+      "id": "e-17",
+      "complaintId": "c-4",
+      "type": "assignee",
+      "text": "Assigned to Tunde Bakare",
+      "actorId": "s1",
+      "createdAt": "2026-11-06T16:12:00+01:00"
+    },
+    {
+      "id": "e-18",
+      "complaintId": "c-4",
+      "type": "status",
+      "text": "Status changed from New to Waiting on Customer",
+      "actorId": "s2",
+      "createdAt": "2026-11-06T19:19:00+01:00"
+    },
+    {
+      "id": "e-19",
+      "complaintId": "c-4",
+      "type": "note",
+      "text": "Asked for the purchase receipt and a short video of the fault.",
+      "actorId": "s2",
+      "createdAt": "2026-11-06T20:26:00+01:00"
+    },
+    {
+      "id": "e-20",
+      "complaintId": "c-5",
+      "type": "created",
+      "text": "Complaint logged",
+      "actorId": "s1",
+      "createdAt": "2026-11-18T10:20:00+01:00"
+    },
+    {
+      "id": "e-21",
+      "complaintId": "c-6",
+      "type": "created",
+      "text": "Complaint logged",
+      "actorId": "s1",
+      "createdAt": "2026-11-19T08:50:00+01:00"
+    },
+    {
+      "id": "e-22",
+      "complaintId": "c-7",
+      "type": "created",
+      "text": "Complaint logged",
+      "actorId": "s1",
+      "createdAt": "2026-11-07T16:10:00+01:00"
+    },
+    {
+      "id": "e-23",
+      "complaintId": "c-7",
+      "type": "assignee",
+      "text": "Assigned to Chioma Eze",
+      "actorId": "s1",
+      "createdAt": "2026-11-07T17:17:00+01:00"
+    },
+    {
+      "id": "e-24",
+      "complaintId": "c-7",
+      "type": "status",
+      "text": "Status changed from New to In Progress",
+      "actorId": "s3",
+      "createdAt": "2026-11-07T19:24:00+01:00"
+    },
+    {
+      "id": "e-25",
+      "complaintId": "c-7",
+      "type": "status",
+      "text": "Status changed from In Progress to Waiting on Customer",
+      "actorId": "s3",
+      "createdAt": "2026-11-08T15:31:00+01:00"
+    },
+    {
+      "id": "e-26",
+      "complaintId": "c-7",
+      "type": "note",
+      "text": "Bank details on file were incorrect. Asked customer to confirm account number.",
+      "actorId": "s3",
+      "createdAt": "2026-11-08T16:38:00+01:00"
+    },
+    {
+      "id": "e-27",
+      "complaintId": "c-8",
+      "type": "created",
+      "text": "Complaint logged",
+      "actorId": "s1",
+      "createdAt": "2026-11-09T12:00:00+01:00"
+    },
+    {
+      "id": "e-28",
+      "complaintId": "c-8",
+      "type": "assignee",
+      "text": "Assigned to Funke Adeyemi",
+      "actorId": "s1",
+      "createdAt": "2026-11-09T14:07:00+01:00"
+    },
+    {
+      "id": "e-29",
+      "complaintId": "c-8",
+      "type": "status",
+      "text": "Status changed from New to In Progress",
+      "actorId": "s5",
+      "createdAt": "2026-11-09T16:14:00+01:00"
+    },
+    {
+      "id": "e-30",
+      "complaintId": "c-8",
+      "type": "status",
+      "text": "Status changed from In Progress to Resolved",
+      "actorId": "s5",
+      "createdAt": "2026-11-09T21:21:00+01:00"
+    },
+    {
+      "id": "e-31",
+      "complaintId": "c-8",
+      "type": "note",
+      "text": "Corrected invoice sent by email.",
+      "actorId": "s5",
+      "createdAt": "2026-11-09T22:28:00+01:00"
+    },
+    {
+      "id": "e-32",
+      "complaintId": "c-9",
+      "type": "created",
+      "text": "Complaint logged",
+      "actorId": "s1",
+      "createdAt": "2026-11-17T19:30:00+01:00"
+    },
+    {
+      "id": "e-33",
+      "complaintId": "c-9",
+      "type": "assignee",
+      "text": "Assigned to Ibrahim Musa",
+      "actorId": "s1",
+      "createdAt": "2026-11-18T11:37:00+01:00"
+    },
+    {
+      "id": "e-34",
+      "complaintId": "c-10",
+      "type": "created",
+      "text": "Complaint logged",
+      "actorId": "s1",
+      "createdAt": "2026-11-10T13:25:00+01:00"
+    },
+    {
+      "id": "e-35",
+      "complaintId": "c-10",
+      "type": "assignee",
+      "text": "Assigned to Tunde Bakare",
+      "actorId": "s1",
+      "createdAt": "2026-11-10T14:32:00+01:00"
+    },
+    {
+      "id": "e-36",
+      "complaintId": "c-10",
+      "type": "status",
+      "text": "Status changed from New to In Progress",
+      "actorId": "s2",
+      "createdAt": "2026-11-10T16:39:00+01:00"
+    },
+    {
+      "id": "e-37",
+      "complaintId": "c-10",
+      "type": "note",
+      "text": "Exchange approved. Courier pickup booked for Friday.",
+      "actorId": "s2",
+      "createdAt": "2026-11-10T18:46:00+01:00"
+    },
+    {
+      "id": "e-38",
+      "complaintId": "c-10",
+      "type": "status",
+      "text": "Status changed from In Progress to Resolved",
+      "actorId": "s2",
+      "createdAt": "2026-11-12T20:53:00+01:00"
+    },
+    {
+      "id": "e-39",
+      "complaintId": "c-11",
+      "type": "created",
+      "text": "Complaint logged",
+      "actorId": "s1",
+      "createdAt": "2026-11-12T09:00:00+01:00"
+    },
+    {
+      "id": "e-40",
+      "complaintId": "c-11",
+      "type": "assignee",
+      "text": "Assigned to Tunde Bakare",
+      "actorId": "s1",
+      "createdAt": "2026-11-12T10:07:00+01:00"
+    },
+    {
+      "id": "e-41",
+      "complaintId": "c-11",
+      "type": "status",
+      "text": "Status changed from New to In Progress",
+      "actorId": "s2",
+      "createdAt": "2026-11-12T11:14:00+01:00"
+    },
+    {
+      "id": "e-42",
+      "complaintId": "c-11",
+      "type": "note",
+      "text": "Warehouse says the item was never dispatched. Checking stock with the supplier.",
+      "actorId": "s2",
+      "createdAt": "2026-11-12T15:21:00+01:00"
+    },
+    {
+      "id": "e-43",
+      "complaintId": "c-12",
+      "type": "created",
+      "text": "Complaint logged",
+      "actorId": "s1",
+      "createdAt": "2026-11-13T15:45:00+01:00"
+    },
+    {
+      "id": "e-44",
+      "complaintId": "c-12",
+      "type": "assignee",
+      "text": "Assigned to Adaeze Obi",
+      "actorId": "s1",
+      "createdAt": "2026-11-13T15:52:00+01:00"
+    },
+    {
+      "id": "e-45",
+      "complaintId": "c-12",
+      "type": "status",
+      "text": "Status changed from New to In Progress",
+      "actorId": "s1",
+      "createdAt": "2026-11-13T16:59:00+01:00"
+    },
+    {
+      "id": "e-46",
+      "complaintId": "c-12",
+      "type": "status",
+      "text": "Status changed from In Progress to Resolved",
+      "actorId": "s1",
+      "createdAt": "2026-11-13T20:06:00+01:00"
+    },
+    {
+      "id": "e-47",
+      "complaintId": "c-12",
+      "type": "note",
+      "text": "Account unlocked manually. Reset link resent to the correct address.",
+      "actorId": "s1",
+      "createdAt": "2026-11-13T20:13:00+01:00"
+    },
+    {
+      "id": "e-48",
+      "complaintId": "c-13",
+      "type": "created",
+      "text": "Complaint logged",
+      "actorId": "s1",
+      "createdAt": "2026-11-14T11:15:00+01:00"
+    },
+    {
+      "id": "e-49",
+      "complaintId": "c-13",
+      "type": "assignee",
+      "text": "Assigned to Chioma Eze",
+      "actorId": "s1",
+      "createdAt": "2026-11-14T13:22:00+01:00"
+    },
+    {
+      "id": "e-50",
+      "complaintId": "c-13",
+      "type": "status",
+      "text": "Status changed from New to Waiting on Customer",
+      "actorId": "s3",
+      "createdAt": "2026-11-14T14:29:00+01:00"
+    },
+    {
+      "id": "e-51",
+      "complaintId": "c-13",
+      "type": "note",
+      "text": "Asked the customer for the statement date and the last four digits of the card.",
+      "actorId": "s3",
+      "createdAt": "2026-11-14T14:36:00+01:00"
+    },
+    {
+      "id": "e-52",
+      "complaintId": "c-14",
+      "type": "created",
+      "text": "Complaint logged",
+      "actorId": "s1",
+      "createdAt": "2026-11-19T09:30:00+01:00"
+    },
+    {
+      "id": "e-53",
+      "complaintId": "c-15",
+      "type": "created",
+      "text": "Complaint logged",
+      "actorId": "s1",
+      "createdAt": "2026-11-18T16:40:00+01:00"
+    }
+  ]
+}
