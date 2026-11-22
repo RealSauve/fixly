@@ -7,7 +7,9 @@ import {
 import ComplaintCard from '../components/ComplaintCard'
 import ComplaintTable from '../components/ComplaintTable'
 import EmptyState from '../components/EmptyState'
+import StatCard from '../components/StatCard'
 import { STATUSES } from '../lib/constants'
+import { computeStats } from '../lib/stats'
 
 const ALL = 'All'
 const ACTIVE = 'All active'
@@ -73,6 +75,23 @@ export default function ComplaintsView({
 
   const hasFilters = query.trim() !== '' || status !== ALL || priority !== ALL
 
+  const stats = computeStats(complaints)
+
+  function toggleStatusCard(value) {
+    setStatus((current) => (current === value ? ALL : value))
+  }
+
+  function toggleHighPriorityCard() {
+    const active = priority === 'High' && status === ACTIVE
+    if (active) {
+      setPriority(ALL)
+      setStatus(ALL)
+    } else {
+      setPriority('High')
+      setStatus(ACTIVE)
+    }
+  }
+
   function clearFilters() {
     setQuery('')
     setStatus(ALL)
@@ -98,6 +117,33 @@ export default function ComplaintsView({
 
   return (
     <section className="complaints">
+      <div className="stat-strip">
+        <StatCard
+          value={stats.new}
+          label="New"
+          active={status === 'New'}
+          onClick={() => toggleStatusCard('New')}
+        />
+        <StatCard
+          value={stats.inProgress}
+          label="In Progress"
+          active={status === 'In Progress'}
+          onClick={() => toggleStatusCard('In Progress')}
+        />
+        <StatCard
+          value={stats.waiting}
+          label="Waiting on Customer"
+          active={status === 'Waiting on Customer'}
+          onClick={() => toggleStatusCard('Waiting on Customer')}
+        />
+        <StatCard
+          value={stats.highPriority}
+          label="High priority"
+          active={priority === 'High' && status === ACTIVE}
+          onClick={toggleHighPriorityCard}
+        />
+      </div>
+
       <div className="toolbar" role="search">
         <div className="search">
           <IconSearch size={18} stroke={1.5} aria-hidden="true" />
