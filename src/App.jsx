@@ -81,6 +81,14 @@ function App() {
         event.preventDefault()
         openDrawer()
       }
+
+      if (event.key === '/') {
+        const search = document.querySelector('.search__input')
+        if (search) {
+          event.preventDefault()
+          search.focus()
+        }
+      }
     }
 
     document.addEventListener('keydown', handleKeyDown)

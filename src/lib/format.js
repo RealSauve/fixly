@@ -50,7 +50,3 @@ export function formatDate(value) {
     year: 'numeric',
   }).format(date)
 }
-
-export function formatCount(count, singular, plural = `${singular}s`) {
-  return `${count} ${count === 1 ? singular : plural}`
-}

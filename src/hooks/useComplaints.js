@@ -27,12 +27,6 @@ export function useComplaints() {
   const storeRef = useRef(state.store)
   storeRef.current = state.store
 
-  const currentUser = state.store.staff[0] ?? {
-    id: 's1',
-    name: 'Unknown',
-    role: '',
-  }
-
   const commit = useCallback((next) => {
     storeRef.current = next
     const saved = saveStore(next)
@@ -244,7 +238,6 @@ export function useComplaints() {
     complaints: state.store.complaints,
     events: state.store.events,
     staff: state.store.staff,
-    currentUser,
     storageStatus: state.status,
     createComplaint,
     updateStatus,
