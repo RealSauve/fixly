@@ -14,12 +14,14 @@ function App() {
   const { name, id, navigate } = useHashRoute()
   const {
     complaints,
+    events,
     staff,
     storageStatus,
     createComplaint,
     updateStatus,
     updatePriority,
     updateAssignee,
+    addNote,
     resetData,
   } = useComplaints()
   const { toast, showToast } = useToast()
@@ -118,10 +120,12 @@ function App() {
     content = (
       <DetailView
         complaint={complaint}
+        events={events.filter((event) => event.complaintId === complaint.id)}
         staff={staff}
         updateStatus={updateStatus}
         updatePriority={updatePriority}
         updateAssignee={updateAssignee}
+        addNote={addNote}
         showToast={showToast}
       />
     )

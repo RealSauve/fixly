@@ -1,5 +1,6 @@
 import { IconArrowLeft } from '@tabler/icons-react'
 import Field from '../components/Field'
+import Timeline from '../components/Timeline'
 import { PRIORITIES, STATUSES } from '../lib/constants'
 import { formatDate, formatFullDate } from '../lib/format'
 
@@ -14,10 +15,12 @@ function MetaRow({ label, value }) {
 
 export default function DetailView({
   complaint,
+  events,
   staff,
   updateStatus,
   updatePriority,
   updateAssignee,
+  addNote,
   showToast,
 }) {
   function handleStatusChange(event) {
@@ -90,12 +93,11 @@ export default function DetailView({
             </dl>
           </section>
 
-          <section className="card">
-            <h2 className="card__title">Timeline</h2>
-            <p className="detail__placeholder-note">
-              The timeline is built in the next slice.
-            </p>
-          </section>
+          <Timeline
+            events={events}
+            staff={staff}
+            onAddNote={(text) => addNote(complaint.id, text)}
+          />
         </div>
 
         <aside className="detail__panel">
