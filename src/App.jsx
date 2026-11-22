@@ -7,7 +7,7 @@ import { useComplaints } from './hooks/useComplaints'
 import { useHashRoute } from './hooks/useHashRoute'
 import { useToast } from './hooks/useToast'
 import ComplaintsView from './views/ComplaintsView'
-import DetailPlaceholderView from './views/DetailPlaceholderView'
+import DetailView from './views/DetailView'
 import NotFoundView from './views/NotFoundView'
 
 function App() {
@@ -18,6 +18,7 @@ function App() {
     storageStatus,
     createComplaint,
     updateStatus,
+    updatePriority,
     updateAssignee,
     resetData,
   } = useComplaints()
@@ -114,7 +115,16 @@ function App() {
       />
     )
   } else if (name === 'detail' && complaint) {
-    content = <DetailPlaceholderView complaint={complaint} />
+    content = (
+      <DetailView
+        complaint={complaint}
+        staff={staff}
+        updateStatus={updateStatus}
+        updatePriority={updatePriority}
+        updateAssignee={updateAssignee}
+        showToast={showToast}
+      />
+    )
   } else {
     content = <NotFoundView />
   }
