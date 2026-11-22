@@ -33,6 +33,7 @@ export default function ComplaintsView({
   updateAssignee,
   showToast,
   navigate,
+  onNew,
 }) {
   const [query, setQuery] = useState('')
   const [status, setStatus] = useState(ALL)
@@ -165,7 +166,14 @@ export default function ComplaintsView({
       </div>
 
       {complaints.length === 0 ? (
-        <EmptyState text="No complaints yet. Log your first one." />
+        <EmptyState
+          text="No complaints yet. Log your first one."
+          action={{
+            label: 'New complaint',
+            variant: 'primary',
+            onClick: onNew,
+          }}
+        />
       ) : visible.length === 0 ? (
         <EmptyState
           text="No complaints match your filters."

@@ -35,6 +35,13 @@
   /* error / success */
   --error: #C0392B;
   --success: #1F7A3E;
+  --error-soft: #FDECEA;
+  --error-border: #F5C6C0;
+
+  /* warning */
+  --warning-bg: #FFF3D6;
+  --warning-border: #F0D9A8;
+  --warning-text: #8A5A00;
 
   /* shape and space */
   --radius: 8px;
