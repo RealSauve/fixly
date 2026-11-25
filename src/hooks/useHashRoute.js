@@ -1,9 +1,15 @@
 import { useEffect, useState } from 'react'
 
+// Sidebar views live at #/<view>; the ticket screen is #/complaint/<id>.
+const VIEW_PATTERN = /^\/(inbox|reviews|assigned|unassigned|sources|team)\/?$/
+
 function parse(hash) {
   const path = (hash || '').replace(/^#/, '') || '/'
 
-  if (path === '/') return { name: 'list' }
+  if (path === '/') return { name: 'list', view: 'overview' }
+
+  const viewMatch = path.match(VIEW_PATTERN)
+  if (viewMatch) return { name: 'list', view: viewMatch[1] }
 
   const match = path.match(/^\/complaint\/([^/]+)\/?$/)
   if (match) {

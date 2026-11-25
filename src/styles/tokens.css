@@ -1,58 +1,62 @@
 :root {
   /* surfaces */
-  --bg: #FAFAF9;
-  --surface: #FFFFFF;
-  --surface-muted: #F5F5F3;
-  --border: #E7E5E0;
-  --border-strong: #D6D3CC;
+  --canvas: #f2f5f9;
+  --surface: #ffffff;
+  --line: #dde4ed;
 
   /* text */
-  --text: #1C1C1A;
-  --text-muted: #6B6B66;
-  --text-faint: #8F8F89;
+  --ink: #0e1a2b;
+  --ink-2: #4a5a70;
+  --ink-3: #66768b;
 
-  /* accent */
-  --accent: #0F52FF;
-  --accent-hover: #0B45D6;
-  --accent-soft: #EDF1FF;
-  --focus-ring: 0 0 0 3px rgba(15, 82, 255, 0.45);
+  /* accents */
+  --blue: #1b5fd9;
+  --blue-hover: #1750bb;
+  --blue-soft: #e8effc;
+  --cyan: #13b5e6;
 
-  /* status pills (bg / text) */
-  --status-new-bg: #E8F0FE;       --status-new-text: #2447B8;
-  --status-progress-bg: #FFF3D6;  --status-progress-text: #8A5A00;
-  --status-waiting-bg: #F0E9FF;   --status-waiting-text: #5B3BB0;
-  --status-resolved-bg: #E3F5E8;  --status-resolved-text: #1F7A3E;
+  /* shell */
+  --sidebar: #0e1a2b;
+  --sidebar-active: #1a2a42;
+  --focus-ring: 0 0 0 3px rgba(27, 95, 217, 0.4);
 
-  /* priority pills (bg / text) */
-  --priority-low-bg: #F0F0ED;     --priority-low-text: #5F5F59;
-  --priority-medium-bg: #E6EEF5;  --priority-medium-text: #2F5878;
-  --priority-high-bg: #FDE8E6;    --priority-high-text: #B02A1F;
+  /* status (icon colours) */
+  --status-new: #1b5fd9;
+  --status-progress: #13b5e6;
+  --status-waiting: #66768b;
+  --status-resolved: #1f7a3e;
+
+  /* priority (flag colours) */
+  --priority-medium: #4a5a70;
+  --priority-high: #b02a1f;
 
   /* note */
-  --note-bg: #FFF9E6;
-  --note-border: #F1E2A8;
+  --note-bg: #fff9e6;
+  --note-border: #f1e2a8;
+  --warning-text: #8a5a00;
 
   /* error / success */
-  --error: #C0392B;
-  --success: #1F7A3E;
-  --error-soft: #FDECEA;
-  --error-border: #F5C6C0;
-
-  /* warning */
-  --warning-bg: #FFF3D6;
-  --warning-border: #F0D9A8;
-  --warning-text: #8A5A00;
+  --error: #c0392b;
+  --success: #1f7a3e;
+  --error-soft: #fdecea;
+  --error-border: #f5c6c0;
 
   /* shape and space */
-  --radius: 8px;
-  --radius-sm: 6px;
-  --radius-pill: 999px;
+  --radius: 8px;      /* controls */
+  --radius-panel: 12px; /* panels */
+  --radius-sm: 6px;   /* chips */
   --shadow-drawer: 0 8px 32px rgba(0, 0, 0, 0.12);
-  --shadow-toast: 0 8px 24px rgba(0, 0, 0, 0.18);
   --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
   --space-5: 24px; --space-6: 32px; --space-7: 48px;
 
+  /* layout */
+  --sidebar-width: 232px;
+  --rail-width: 76px;
+  --topbar-height: 56px;
+  --inbox-list-width: 380px;
+
   /* type */
+  --font-heading: "Sora", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-sans: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }

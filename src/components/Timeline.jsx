@@ -102,7 +102,7 @@ function NoteEvent({ event, staff }) {
           <IconLock size={14} stroke={2} aria-hidden="true" />
           <span className="timeline__note-label">Internal note</span>
           <span className="timeline__note-meta">
-            {actorName(staff, event.actorId)} ·{' '}
+            <span>{actorName(staff, event.actorId)}</span>
             <time
               dateTime={event.createdAt}
               title={formatFullDate(event.createdAt)}

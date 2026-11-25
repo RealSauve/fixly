@@ -22,6 +22,7 @@ export default function DetailView({
   updateAssignee,
   addNote,
   showToast,
+  backHref = '#/',
 }) {
   function handleStatusChange(event) {
     const updated = updateStatus(complaint.id, event.target.value)
@@ -44,7 +45,7 @@ export default function DetailView({
   return (
     <section className="detail">
       <header className="detail__header">
-        <a className="back-link" href="#/">
+        <a className="back-link" href={backHref}>
           <IconArrowLeft size={16} stroke={1.5} aria-hidden="true" />
           Back to complaints
         </a>
