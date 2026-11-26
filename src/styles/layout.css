@@ -401,7 +401,7 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 12px 28px;
+  padding: 0 28px 24px;
   border-bottom: 1px solid var(--line);
   background: var(--topbar-bg);
   backdrop-filter: blur(10px);
@@ -787,7 +787,7 @@
 /* Below 1024px the list and the detail are separate screens. */
 @media (max-width: 1023px) {
   .topbar {
-    padding: 12px 20px;
+    padding: 0 20px 24px;
   }
 
   .topbar__row--utility {
