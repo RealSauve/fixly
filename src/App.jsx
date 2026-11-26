@@ -114,6 +114,7 @@ function App() {
   const [listVersion, setListVersion] = useState(0)
   const [lastView, setLastView] = useState('tickets')
   const newButtonRef = useRef(null)
+  const menuButtonRef = useRef(null)
   const announced = useRef(false)
 
   // A detail screen keeps the sidebar highlight on the screen it came from.
@@ -151,6 +152,21 @@ function App() {
     setDrawerOpen(false)
     requestAnimationFrame(() => newButtonRef.current?.focus())
   }, [])
+
+  const closeMenu = useCallback(() => {
+    setMenuOpen(false)
+    menuButtonRef.current?.focus()
+  }, [])
+
+  // The mobile menu is an overlay, so the page behind it should not scroll.
+  useEffect(() => {
+    if (!menuOpen) return undefined
+    const previous = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.body.style.overflow = previous
+    }
+  }, [menuOpen])
 
   const handleCreated = useCallback(
     (complaint) => {
@@ -214,7 +230,7 @@ function App() {
       if (drawerOpen || name === 'intake') return
 
       if (menuOpen) {
-        if (event.key === 'Escape') setMenuOpen(false)
+        if (event.key === 'Escape') closeMenu()
         return
       }
 
@@ -250,7 +266,7 @@ function App() {
 
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [drawerOpen, menuOpen, name, openDrawer, navigate])
+  }, [drawerOpen, menuOpen, name, openDrawer, closeMenu, navigate])
 
   function handleReset() {
     const confirmed = window.confirm(
@@ -386,6 +402,9 @@ function App() {
         deliveries={integrationTools.deliveries}
         connect={integrationTools.connect}
         disconnect={integrationTools.disconnect}
+        toggle={integrationTools.toggle}
+        webhookEndpoint={integrationTools.webhookEndpoint}
+        emailAddress={integrationTools.emailAddress}
         regenerateSecret={integrationTools.regenerateSecret}
         sendTest={integrationTools.sendTest}
         submitIntake={integrationTools.submitIntake}
@@ -428,6 +447,7 @@ function App() {
         unassignedCount={unassignedCount}
         open={menuOpen}
         onNavigate={() => setMenuOpen(false)}
+        onClose={closeMenu}
         userName={currentUser?.name ?? 'Support lead'}
         userRole={currentUser?.role ?? 'Support team'}
       />
@@ -439,6 +459,7 @@ function App() {
           onQueryChange={handleQueryChange}
           onNew={openDrawer}
           newButtonRef={newButtonRef}
+          menuButtonRef={menuButtonRef}
           onMenu={() => setMenuOpen(true)}
           userName={currentUser?.name ?? ''}
           complaints={complaints}

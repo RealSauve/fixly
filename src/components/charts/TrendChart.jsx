@@ -34,6 +34,7 @@ export default function TrendChart({ points, max, granularity = 'day' }) {
   const [keyboardIndex, setKeyboardIndex] = useState(null)
   const [hoverIndex, setHoverIndex] = useState(null)
   const [cursor, setCursor] = useState(null)
+  const [plotWidth, setPlotWidth] = useState(0)
   const rootRef = useRef(null)
   const plotRef = useRef(null)
 
@@ -73,13 +74,36 @@ export default function TrendChart({ points, max, granularity = 'day' }) {
   )
   const isEmpty = data.length === 0 || totals.created + totals.resolved === 0
 
+  useEffect(() => {
+    const element = plotRef.current
+    if (isEmpty || !element || typeof ResizeObserver === 'undefined') {
+      return undefined
+    }
+
+    const observer = new ResizeObserver(([entry]) => {
+      setPlotWidth(entry.contentRect.width)
+    })
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [isEmpty])
+
   const { ticks, top } = niceTicks(max)
   const activeIndex = hoverIndex ?? keyboardIndex
   const activePoint =
     activeIndex !== null && activeIndex < data.length ? data[activeIndex] : null
 
-  // Daily charts label roughly every 7 days; longer windows use a smaller step.
-  const tickStep = granularity === 'week' ? 2 : isMonth ? 3 : 7
+  // Thin charts need fewer labels. Keep the familiar desktop cadence and
+  // widen the step only when the plot cannot fit the labels.
+  const baseTickStep = granularity === 'week' ? 2 : isMonth ? 3 : 7
+  const minTickWidth = plotWidth > 0 && plotWidth < 480 ? 64 : 44
+  const fittedStep =
+    plotWidth > 0
+      ? Math.max(
+          1,
+          Math.ceil((data.length * minTickWidth) / Math.max(1, plotWidth - 44)),
+        )
+      : baseTickStep
+  const tickStep = Math.max(baseTickStep, fittedStep)
   const xTicks = []
   for (let index = 0; index < data.length; index += tickStep) {
     xTicks.push(data[index].label)

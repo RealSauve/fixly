@@ -41,7 +41,13 @@ export default function RecentTicketsTable({ tickets, onOpen }) {
 
   return (
     <div className="data-table">
-      <div className="table-wrap">
+      <p className="table-scroll-hint">Swipe for more columns</p>
+      <div
+        className="table-wrap"
+        tabIndex={0}
+        role="region"
+        aria-label="Recent tickets table, scrollable"
+      >
         <table className="table recent-table">
           <thead>
             <tr>

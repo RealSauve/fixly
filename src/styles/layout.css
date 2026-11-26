@@ -78,6 +78,10 @@
   color: var(--ink);
 }
 
+.sidebar__close {
+  display: none;
+}
+
 .sidebar.is-collapsed .sidebar__head {
   flex-direction: column;
   gap: 10px;
@@ -821,15 +825,18 @@
     left: 0;
     z-index: 42;
     width: var(--sidebar-width);
-    height: 100vh;
-    padding: 18px 14px 16px;
+    height: 100dvh;
+    padding: 18px 14px calc(16px + env(safe-area-inset-bottom));
     box-shadow: var(--shadow-pop);
+    visibility: hidden;
     transform: translateX(-100%);
-    transition: transform 200ms ease;
+    transition: transform 200ms ease, visibility 0s linear 200ms;
   }
 
   .sidebar.is-open {
+    visibility: visible;
     transform: translateX(0);
+    transition: transform 200ms ease;
   }
 
   .sidebar__scrim {
@@ -842,6 +849,25 @@
 
   .sidebar__collapse {
     display: none;
+  }
+
+  .sidebar__close {
+    display: inline-flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: transparent;
+    color: var(--ink-2);
+  }
+
+  .sidebar__close:hover {
+    border-color: var(--line);
+    background: var(--surface-2);
+    color: var(--ink);
   }
 
   /* The overlay always shows the full navigation, even if the desktop
@@ -942,13 +968,20 @@
   }
 
   .header-popover__panel {
-    width: min(300px, calc(100vw - 32px));
+    position: fixed;
+    top: 64px;
+    right: 16px;
+    left: 16px;
+    width: auto;
+    max-width: 420px;
+    max-height: calc(100dvh - 80px);
+    margin-inline: auto;
+    overflow-y: auto;
+    transform: none;
   }
 
-  .header-popover--ask .header-popover__panel {
-    left: 50%;
-    right: auto;
-    transform: translateX(-50%);
+  .search__kbd {
+    display: none;
   }
 
   .topbar__row--welcome {
@@ -977,5 +1010,44 @@
   .topbar__avatar {
     width: 36px;
     height: 36px;
+  }
+}
+
+/* On phones the New ticket action becomes a floating button in thumb reach. */
+@media (max-width: 639px) {
+  /* Backdrop blur makes the sticky header a containing block for fixed
+     children, which would keep the FAB pinned to the header. */
+  .topbar {
+    backdrop-filter: none;
+  }
+
+  .topbar__controls {
+    position: fixed;
+    right: var(--space-4);
+    bottom: calc(var(--space-4) + env(safe-area-inset-bottom));
+    z-index: 30;
+    width: auto;
+  }
+
+  .topbar .topbar__new {
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    min-height: 56px;
+    padding: 0;
+    border-radius: 50%;
+    box-shadow: var(--shadow-pop);
+  }
+
+  .topbar__new-label {
+    display: none;
+  }
+
+  .topbar__new-icon {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: transparent;
+    color: var(--surface);
   }
 }

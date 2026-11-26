@@ -127,7 +127,7 @@ export function useIntegrations({
   const connect = useCallback(
     (id) => {
       const channel = CHANNELS.find((item) => item.id === id)
-      if (!channel || channel.kind !== 'api') return false
+      if (!channel || !['api', 'oauth'].includes(channel.kind)) return false
 
       const existing = connections.get(id)
       const now = new Date().toISOString()
@@ -150,6 +150,16 @@ export function useIntegrations({
       showToast(`${channel.label} disconnected in this browser`)
     },
     [saveIntegration, showToast],
+  )
+
+  const toggle = useCallback(
+    (id) => {
+      const channel = CHANNELS.find((item) => item.id === id)
+      if (!channel || channel.kind === 'address') return
+      if (isEnabled(id)) disconnect(id)
+      else connect(id)
+    },
+    [connect, disconnect, isEnabled],
   )
 
   const regenerateSecret = useCallback(
@@ -192,6 +202,9 @@ export function useIntegrations({
     isEnabled,
     connect,
     disconnect,
+    toggle,
+    webhookEndpoint: WEBHOOK_ENDPOINT,
+    emailAddress: EMAIL_ADDRESS,
     regenerateSecret,
     submitIntake,
     sendTest,

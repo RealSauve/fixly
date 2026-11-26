@@ -121,7 +121,13 @@ export default function SourcesView({ complaints }) {
         </div>
 
         <div className="data-table">
-          <div className="table-wrap">
+          <p className="table-scroll-hint">Swipe for more columns</p>
+          <div
+            className="table-wrap"
+            tabIndex={0}
+            role="region"
+            aria-label="Source performance table, scrollable"
+          >
             <table className="table source-table">
               <thead>
                 <tr>

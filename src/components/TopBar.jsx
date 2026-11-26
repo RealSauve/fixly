@@ -16,6 +16,7 @@ export default function TopBar({
   onQueryChange,
   onNew,
   newButtonRef,
+  menuButtonRef,
   onMenu,
   userName,
   complaints = [],
@@ -65,6 +66,7 @@ export default function TopBar({
     <header className="topbar">
       <div className="topbar__row topbar__row--utility">
         <button
+          ref={menuButtonRef}
           className="icon-button topbar__menu"
           type="button"
           onClick={onMenu}
@@ -85,13 +87,13 @@ export default function TopBar({
               onChange={(event) => onQueryChange(event.target.value)}
             />
             <kbd className="search__kbd" title="Search shortcut">
-              ⌘ K
+              /
             </kbd>
           </div>
         ) : null}
 
         <div className="topbar__tools">
-          <div className="header-popover" ref={askRef}>
+          <div className="header-popover header-popover--ask" ref={askRef}>
             <button
               className="icon-button ask-button"
               type="button"
@@ -148,7 +150,7 @@ export default function TopBar({
             ) : null}
           </div>
 
-          <div className="header-popover" ref={bellRef}>
+          <div className="header-popover header-popover--bell" ref={bellRef}>
             <button
               className="icon-button bell-button"
               type="button"

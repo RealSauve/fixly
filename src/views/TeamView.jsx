@@ -95,7 +95,13 @@ export default function TeamView({ complaints, staff }) {
         </div>
 
         <div className="data-table">
-          <div className="table-wrap">
+          <p className="table-scroll-hint">Swipe for more columns</p>
+          <div
+            className="table-wrap"
+            tabIndex={0}
+            role="region"
+            aria-label="Team workload table, scrollable"
+          >
             <table className="table team-table">
               <thead>
                 <tr>

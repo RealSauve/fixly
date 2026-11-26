@@ -35,7 +35,13 @@ export default function ComplaintTable({
 
   return (
     <div className="data-table">
-      <div className="table-wrap">
+      <p className="table-scroll-hint">Swipe for more columns</p>
+      <div
+        className="table-wrap"
+        tabIndex={0}
+        role="region"
+        aria-label="Complaints table, scrollable"
+      >
         <table className="table table--complaints">
           <thead>
             <tr>
@@ -96,7 +102,9 @@ export default function ComplaintTable({
                   <td className="col-status">
                     <span
                       className={`status-cell tone--${toSlug(complaint.status)}`}
-                      onClick={(event) => event.stopPropagation()}
+                      onClick={(event) => {
+                        if (event.target.closest('select')) event.stopPropagation()
+                      }}
                     >
                       <span className="status-cell__value">
                         <span className="badge__dot" aria-hidden="true" />

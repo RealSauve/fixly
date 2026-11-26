@@ -59,7 +59,10 @@ export default function DonutChart({
       className={`donut${sum > 0 ? '' : ' donut--empty'}${
         fullRing ? ' donut--full' : ''
       }`}
-      style={{ width: size, height: size, '--donut-thickness': `${strokeWidth}px` }}
+      style={{
+        '--donut-size': `${size}px`,
+        '--donut-thickness': `${strokeWidth}px`,
+      }}
       role="img"
       aria-label={`Distribution chart. ${label}.`}
     >

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   IconChartDonut,
   IconInbox,
@@ -12,6 +12,7 @@ import {
   IconUserCheck,
   IconUserOff,
   IconUsers,
+  IconX,
 } from '@tabler/icons-react'
 import SponsoredAd from './SponsoredAd'
 
@@ -117,15 +118,45 @@ export default function Sidebar({
   unassignedCount,
   open,
   onNavigate,
+  onClose,
   userName,
   userRole,
 }) {
   const [collapsed, setCollapsed] = useState(readCollapsed)
   const [tooltip, setTooltip] = useState(null)
+  const navRef = useRef(null)
+  const closeRef = useRef(null)
 
   // On mobile the sidebar is a full overlay, so the desktop collapse
   // preference is ignored while it is open.
   const isCollapsed = collapsed && !open
+
+  useEffect(() => {
+    if (!open) return undefined
+
+    closeRef.current?.focus()
+
+    function trapFocus(event) {
+      if (event.key !== 'Tab') return
+      const focusable = navRef.current?.querySelectorAll(
+        'a[href], button:not([disabled])',
+      )
+      if (!focusable?.length) return
+
+      const first = focusable[0]
+      const last = focusable[focusable.length - 1]
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault()
+        last.focus()
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault()
+        first.focus()
+      }
+    }
+
+    document.addEventListener('keydown', trapFocus)
+    return () => document.removeEventListener('keydown', trapFocus)
+  }, [open])
 
   function toggleCollapsed() {
     setTooltip(null)
@@ -156,10 +187,11 @@ export default function Sidebar({
   return (
     <>
       {open ? (
-        <div className="sidebar__scrim" onClick={onNavigate} aria-hidden="true" />
+        <div className="sidebar__scrim" onClick={onClose} aria-hidden="true" />
       ) : null}
 
       <nav
+        ref={navRef}
         className={`sidebar${isCollapsed ? ' is-collapsed' : ''}${
           open ? ' is-open' : ''
         }`}
@@ -180,6 +212,15 @@ export default function Sidebar({
               height="28"
             />
           </a>
+          <button
+            ref={closeRef}
+            className="sidebar__close"
+            type="button"
+            aria-label="Close navigation menu"
+            onClick={onClose}
+          >
+            <IconX size={20} aria-hidden="true" />
+          </button>
           <button
             className="sidebar__collapse"
             type="button"
