@@ -168,7 +168,7 @@ export default function NewComplaintDrawer({
       >
         <header className="drawer__header">
           <h2 className="drawer__title" id="new-complaint-title">
-            New complaint
+            New ticket
           </h2>
           <button
             className="icon-button"
@@ -176,7 +176,7 @@ export default function NewComplaintDrawer({
             onClick={onClose}
             aria-label="Close"
           >
-            <IconX size={18} stroke={1.5} aria-hidden="true" />
+            <IconX size={18} aria-hidden="true" />
           </button>
         </header>
 
@@ -325,9 +325,9 @@ export default function NewComplaintDrawer({
 
             <Field
               id="source"
-              label="Complaint source"
+              label="Ticket source"
               error={errors.source}
-              hint="Where the complaint reached you."
+              hint="Where the ticket reached you."
             >
               <select
                 ref={sourceRef}
@@ -396,7 +396,7 @@ export default function NewComplaintDrawer({
 
             {warning ? (
               <div ref={warningRef} className="form__warning" role="alert">
-                <p>This looks like a complaint you just logged.</p>
+                <p>This looks like a ticket you just logged.</p>
                 <div className="form__warning-actions">
                   <button
                     className="button button--secondary"
@@ -431,7 +431,7 @@ export default function NewComplaintDrawer({
               type="submit"
               disabled={saving}
             >
-              Log complaint
+              Log ticket
             </button>
           </footer>
         </form>

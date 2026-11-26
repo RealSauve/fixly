@@ -116,7 +116,7 @@ Behaviour:
 - Validate on submit; after the first submit attempt also validate on blur. Show the error text under the field in red, linked with `aria-describedby`. On failure, focus the first invalid field.
 - A top-level message appears if both contact fields are empty: "Add an email or a phone number."
 - **Duplicate guard:** while saving, the Save button is disabled. If a complaint with the same customer name (case-insensitive) and the same subject was created in the last 60 seconds, show an inline warning "This looks like a complaint you just logged." with two buttons: "Log anyway" and "Cancel".
-- On success: create the complaint with status New, generate the reference, add a `created` event, close the drawer, show toast "Complaint CMP-0016 logged", and keep the user on the list (the new complaint is at the top).
+- On success: create the complaint with status New, generate the reference, add a `created` event, close the drawer, show toast "Complaint CMP-0169 logged", and keep the user on the list (the new complaint is at the top).
 - Buttons: "Log complaint" (primary), "Cancel" (text).
 
 ### 5.4 Complaint detail screen
@@ -200,12 +200,12 @@ Complaint   { id, reference, customerName, customerEmail, customerPhone,
               assigneeId (null or staff id), createdAt, updatedAt, resolvedAt (null or ISO) }
 Event       { id, complaintId, type, text, actorId, createdAt }
               type = "created" | "status" | "priority" | "assignee" | "note"
-Store       { version: 1, counter, staff[], complaints[], events[] }
+Store       { version: 4, counter, staff[], complaints[], events[] }
 ```
 
 Storage: a single localStorage key `complaint-tracker:v1` holding the Store as JSON. On first load (or if the key is missing or the JSON is corrupt) load `src/data/seed.json` and save it. When corrupt data is replaced, show a toast "Saved data could not be read, so demo data was restored."
 
-The seed file `docs/seed-data.json` has 5 staff and 15 complaints with realistic Nigerian business scenarios and a complete timeline for each.
+The seed file `docs/seed-data.json` has 5 staff and 168 complaints across the last 12 months, with 755 timeline events covering realistic Nigerian business scenarios. The next generated reference is CMP-0169.
 
 Constants (in `lib/constants.js`):
 - STATUSES = ["New", "In Progress", "Waiting on Customer", "Resolved"]

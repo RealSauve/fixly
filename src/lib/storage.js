@@ -1,7 +1,7 @@
 import seed from '../data/seed.json'
 
 export const STORAGE_KEY = 'complaint-tracker:v1'
-const STORE_VERSION = 2
+const STORE_VERSION = 4
 
 export function cloneSeed() {
   return JSON.parse(JSON.stringify(seed))
@@ -18,34 +18,25 @@ function getStorage() {
 }
 
 export function isValidStore(store) {
+  if (!store || ![1, 2, 3, 4].includes(store.version)) return false
+
   return Boolean(
-    store &&
-      (store.version === 1 || store.version === 2) &&
-      Number.isFinite(store.counter) &&
+    Number.isFinite(store.counter) &&
       Array.isArray(store.staff) &&
       Array.isArray(store.complaints) &&
-      Array.isArray(store.events),
+      Array.isArray(store.events) &&
+      (store.version !== 3 ||
+        (Array.isArray(store.integrations) &&
+          Array.isArray(store.deliveries))),
   )
 }
 
-// Version 1 stores predate complaint sources. Backfill from the sample set
-// where the id matches, otherwise label the record Unknown so nothing is lost.
+// Version 4 replaces the sparse 15-ticket sample with a full year of history.
+// Earlier local prototype edits are intentionally replaced so every chart has
+// enough real buckets to read.
 export function migrateStore(store) {
   if (store.version === STORE_VERSION) return store
-
-  const seedSources = new Map(
-    seed.complaints.map((complaint) => [complaint.id, complaint.source]),
-  )
-
-  return {
-    ...store,
-    version: STORE_VERSION,
-    complaints: store.complaints.map((complaint) => ({
-      ...complaint,
-      source:
-        complaint.source ?? seedSources.get(complaint.id) ?? 'Unknown',
-    })),
-  }
+  return cloneSeed()
 }
 
 export function saveStore(store) {

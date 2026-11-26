@@ -1,6 +1,11 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { CATEGORIES, PRIORITIES, STATUSES } from '../lib/constants'
-import { cloneSeed, loadStore, saveStore } from '../lib/storage'
+import {
+  cloneSeed,
+  loadStore,
+  saveStore,
+  STORAGE_KEY,
+} from '../lib/storage'
 
 function nextNumber(items, prefix) {
   const highest = items.reduce((max, item) => {
@@ -71,7 +76,7 @@ export function useComplaints() {
         current,
         complaint.id,
         'created',
-        'Complaint logged',
+        'Ticket logged',
         now,
       )
 
@@ -223,11 +228,73 @@ export function useComplaints() {
     [commit],
   )
 
+  // Connections and deliveries share the same commit path as complaints so a
+  // failed localStorage write is reported in exactly one place.
+  const saveIntegration = useCallback(
+    (id, patch) => {
+      const current = storeRef.current
+      const existing = current.integrations.find((item) => item.id === id)
+      const now = new Date().toISOString()
+      const next = {
+        ...existing,
+        ...patch,
+        id,
+        connectedAt:
+          existing?.connectedAt ?? (patch.enabled ? now : null),
+        updatedAt: now,
+      }
+      const integrations = existing
+        ? current.integrations.map((item) => (item.id === id ? next : item))
+        : [...current.integrations, next]
+
+      commit({ ...current, integrations })
+      return next
+    },
+    [commit],
+  )
+
+  const recordDelivery = useCallback(
+    (input = {}) => {
+      const current = storeRef.current
+      const delivery = {
+        id: `d-${nextNumber(current.deliveries, 'd')}`,
+        channel: input.channel ?? 'webhook',
+        source: input.source ?? 'Webhook',
+        status: input.status ?? 'received',
+        reference: input.reference ?? null,
+        message: input.message ?? '',
+        createdAt: new Date().toISOString(),
+      }
+
+      commit({
+        ...current,
+        deliveries: [delivery, ...current.deliveries],
+      })
+
+      return delivery
+    },
+    [commit],
+  )
+
+  // A hosted form opened in another tab writes to the same localStorage key.
+  // Keep this tab in step so counts and the delivery log do not go stale.
+  useEffect(() => {
+    function syncStore(event) {
+      if (event.key !== null && event.key !== STORAGE_KEY) return
+      const loaded = loadStore()
+      storeRef.current = loaded.store
+      setState(loaded)
+    }
+
+    window.addEventListener('storage', syncStore)
+    return () => window.removeEventListener('storage', syncStore)
+  }, [])
+
   const resetData = useCallback(() => {
     const fresh = cloneSeed()
     const next = {
       ...fresh,
-      // Keep the reference counter so a demo reset cannot reuse a number.
+      // Keep the reference counter so a sample-data reset cannot reuse a number.
       counter: Math.max(fresh.counter, storeRef.current.counter),
     }
 
@@ -239,12 +306,16 @@ export function useComplaints() {
     complaints: state.store.complaints,
     events: state.store.events,
     staff: state.store.staff,
+    integrations: state.store.integrations ?? [],
+    deliveries: state.store.deliveries ?? [],
     storageStatus: state.status,
     createComplaint,
     updateStatus,
     updatePriority,
     updateAssignee,
     addNote,
+    saveIntegration,
+    recordDelivery,
     resetData,
   }
 }

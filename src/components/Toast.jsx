@@ -7,7 +7,7 @@ export default function Toast({ toast }) {
 
   return (
     <div className={`toast toast--${toast.tone}`} role="status" aria-live="polite">
-      <Icon size={18} stroke={1.5} aria-hidden="true" />
+      <Icon size={18} aria-hidden="true" />
       <span>{toast.message}</span>
     </div>
   )

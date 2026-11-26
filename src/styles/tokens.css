@@ -1,10 +1,10 @@
 :root {
-  /* surfaces */
-  --canvas: #f4f6fa;
+  /* surfaces: warm neutral canvas, white content, hairline borders */
+  --canvas: #faf9f7;
   --surface: #ffffff;
-  --surface-2: #f7f9fc;
-  --line: #e6ebf2;
-  --line-strong: #d6dee9;
+  --surface-2: #f6f5f2;
+  --line: #e8e6e1;
+  --line-strong: #d6d3cc;
 
   /* text */
   --ink: #0b1b33;
@@ -15,15 +15,110 @@
   --blue: #1b5fd9;
   --blue-hover: #164db3;
   --blue-soft: #e9f0fd;
-  --cyan: #13b5e6;
   --navy: #0b1b33;
   --navy-2: #123a6b;
-  --green: #1f7a3e;
-  --green-soft: #e8f6ed;
-  --amber: #b45309;
-  --amber-soft: #fdf3e4;
-  --red: #b42318;
-  --red-soft: #feeceb;
+
+  /* One brand blue ramp for charts and quiet surfaces. */
+  --blue-900: color-mix(in srgb, var(--blue) 72%, var(--navy));
+  --blue-700: var(--blue);
+  --blue-600: color-mix(in srgb, var(--blue) 82%, var(--surface));
+  --blue-500: color-mix(in srgb, var(--blue) 62%, var(--surface));
+  --blue-400: color-mix(in srgb, var(--blue) 45%, var(--surface));
+  --blue-50: color-mix(in srgb, var(--blue) 6%, var(--surface));
+  --blue-100: color-mix(in srgb, var(--blue) 12%, var(--surface));
+  --blue-200: color-mix(in srgb, var(--blue) 24%, var(--surface));
+
+  /* Semantic ramps. 50/100/200 are quiet fills; 500/600/700 carry text.
+     Raw hex lives only in this file; components always use these tokens. */
+  --indigo-50: #eef2ff;
+  --indigo-100: #e0e7ff;
+  --indigo-200: #c7d2fe;
+  --indigo-500: #6366f1;
+  --indigo-600: #4f46e5;
+  --indigo-700: #4338ca;
+
+  --slate-50: #f8fafc;
+  --slate-100: #e2e8f0;
+  --slate-200: #cbd5e1;
+  --slate-500: #64748b;
+  --slate-600: #475569;
+  --slate-700: #334155;
+
+  --green-50: #f0fdf4;
+  --green-100: #dcfce7;
+  --green-200: #bbf7d0;
+  --green-500: #22c55e;
+  --green-600: #16a34a;
+  --green-700: #166534;
+
+  --amber-50: #fffbeb;
+  --amber-100: #fef3c7;
+  --amber-200: #fde68a;
+  --amber-500: #f59e0b;
+  --amber-600: #d97706;
+  --amber-700: #92400e;
+
+  --red-50: #fef2f2;
+  --red-100: #fee2e2;
+  --red-200: #fecaca;
+  --red-500: #ef4444;
+  --red-600: #dc2626;
+  --red-700: #b91c1c;
+
+  --teal-50: #f0fdfa;
+  --teal-100: #ccfbf1;
+  --teal-200: #99f6e4;
+  --teal-500: #14b8a6;
+  --teal-600: #0d9488;
+  --teal-700: #115e59;
+
+  /* Named semantic aliases, so components never need to pick a ramp. */
+  --secondary-50: var(--slate-50);
+  --secondary-100: var(--slate-100);
+  --secondary-200: var(--slate-200);
+  --secondary-500: var(--slate-500);
+  --secondary-600: var(--slate-600);
+  --secondary-700: var(--slate-700);
+  --accent-50: var(--blue-50);
+  --accent-100: var(--blue-100);
+  --accent-200: var(--blue-200);
+  --accent-500: var(--blue-500);
+  --accent-600: var(--blue-600);
+  --accent-700: var(--blue-700);
+  --success-50: var(--green-50);
+  --success-100: var(--green-100);
+  --success-200: var(--green-200);
+  --success-500: var(--green-500);
+  --success-600: var(--green-600);
+  --success-700: var(--green-700);
+  --warning-50: var(--amber-50);
+  --warning-100: var(--amber-100);
+  --warning-200: var(--amber-200);
+  --warning-500: var(--amber-500);
+  --warning-600: var(--amber-600);
+  --warning-700: var(--amber-700);
+  --danger-50: var(--red-50);
+  --danger-100: var(--red-100);
+  --danger-200: var(--red-200);
+  --danger-500: var(--red-500);
+  --danger-600: var(--red-600);
+  --danger-700: var(--red-700);
+  --neutral-50: var(--slate-50);
+  --neutral-100: var(--slate-100);
+  --neutral-200: var(--slate-200);
+  --neutral-500: var(--slate-500);
+  --neutral-600: var(--slate-600);
+  --neutral-700: var(--slate-700);
+
+  /* Frosted-glass effects derived from the existing surface token. */
+  --glass-fill: color-mix(in srgb, var(--surface) 20%, transparent);
+  --glass-fill-hover: color-mix(in srgb, var(--surface) 28%, transparent);
+  --glass-border: color-mix(in srgb, var(--surface) 32%, transparent);
+  --glass-highlight: color-mix(in srgb, var(--surface) 42%, transparent);
+  --glass-text-soft: color-mix(in srgb, var(--surface) 82%, transparent);
+  --glass-text-muted: color-mix(in srgb, var(--surface) 72%, transparent);
+  --glass-glow: color-mix(in srgb, var(--surface) 24%, transparent);
+  --glass-transparent: color-mix(in srgb, var(--surface) 0%, transparent);
 
   /* light shell */
   --sidebar: #ffffff;
@@ -32,64 +127,94 @@
   --sidebar-ink-strong: #14243c;
   --sidebar-line: #edf1f6;
 
-  --focus-ring: 0 0 0 3px rgba(27, 95, 217, 0.28);
+  --focus-ring: 0 0 0 3px color-mix(in srgb, var(--blue) 28%, transparent);
+  --scrim: color-mix(in srgb, var(--navy) 45%, transparent);
+  --topbar-bg: color-mix(in srgb, var(--canvas) 94%, transparent);
 
-  /* status */
-  --status-new: #1b5fd9;
-  --status-new-soft: #e9f0fd;
-  --status-progress: #0e93c4;
-  --status-progress-soft: #e3f6fd;
-  --status-waiting: #64748b;
-  --status-waiting-soft: #f1f5f9;
-  --status-resolved: #1f7a3e;
-  --status-resolved-soft: #e8f6ed;
+  /* Data visualisation: brand blue and neutral grays only. */
+  --chart-primary: var(--blue-700);
+  --chart-secondary: var(--ink-2);
+  --chart-grid: var(--line);
+  --chart-guide: var(--line-strong);
+  --chart-band: color-mix(in srgb, var(--blue) 8%, transparent);
 
-  /* priority */
-  --priority-high: #b42318;
-  --priority-high-soft: #feeceb;
-  --priority-medium: #b45309;
-  --priority-medium-soft: #fdf3e4;
-  --priority-low: #64748b;
-  --priority-low-soft: #f1f5f9;
+  /* Total tickets card: brand gradient with a soft radial highlight. */
+  --hero-blue-start: color-mix(in srgb, var(--blue) 78%, var(--navy));
+  --hero-blue-mid: var(--blue-700);
+  --hero-blue-end: color-mix(in srgb, var(--blue) 24%, var(--surface));
 
-  /* complaint sources (soft chips) */
-  --source-website: #2563eb;
-  --source-website-soft: #e9efff;
-  --source-email: #7c3aed;
-  --source-email-soft: #f1eafe;
-  --source-phone-call: #0e93c4;
-  --source-phone-call-soft: #e3f6fd;
-  --source-whatsapp: #15803d;
-  --source-whatsapp-soft: #e7f8ed;
-  --source-social-media: #be185d;
-  --source-social-media-soft: #fdebf4;
-  --source-walk-in: #b45309;
-  --source-walk-in-soft: #fdf3e4;
-  --source-other: #64748b;
-  --source-other-soft: #f1f5f9;
-  --source-unknown: #64748b;
-  --source-unknown-soft: #f1f5f9;
+  /* Motion and icon consistency. */
+  --motion-fast: 160ms ease-out;
+  --motion-base: 200ms ease-out;
+  --icon-size: 18px;
+  --icon-stroke: 1.8;
+
+  /* Status: New=indigo, In progress=brand blue, Waiting=slate, Resolved=green.
+     Every pair uses a 100-level fill with a 700-level label (≥4.5:1). */
+  --status-new: var(--indigo-700);
+  --status-new-soft: var(--indigo-100);
+  --status-progress: var(--blue-700);
+  --status-progress-soft: var(--blue-100);
+  --status-waiting: var(--slate-700);
+  --status-waiting-soft: var(--slate-100);
+  --status-resolved: var(--green-700);
+  --status-resolved-soft: var(--green-100);
+
+  /* Priority: High=red, Medium=amber, Low=teal. */
+  --priority-high: var(--red-700);
+  --priority-high-soft: var(--red-100);
+  --priority-medium: var(--amber-700);
+  --priority-medium-soft: var(--amber-100);
+  --priority-low: var(--teal-700);
+  --priority-low-soft: var(--teal-100);
+
+  /* Ticket sources: quiet blue ramp plus neutral grays. */
+  --source-website: var(--blue-700);
+  --source-website-soft: var(--blue-100);
+  --source-email: var(--blue-600);
+  --source-email-soft: var(--blue-100);
+  --source-webhook: var(--blue-500);
+  --source-webhook-soft: var(--blue-100);
+  --source-instagram: var(--blue-400);
+  --source-instagram-soft: var(--blue-100);
+  --source-facebook: var(--blue-700);
+  --source-facebook-soft: var(--blue-100);
+  --source-x-twitter: var(--ink-2);
+  --source-x-twitter-soft: var(--surface-2);
+  --source-phone-call: var(--blue-600);
+  --source-phone-call-soft: var(--blue-100);
+  --source-whatsapp: var(--blue-500);
+  --source-whatsapp-soft: var(--blue-100);
+  --source-social-media: var(--blue-400);
+  --source-social-media-soft: var(--blue-100);
+  --source-walk-in: var(--blue-600);
+  --source-walk-in-soft: var(--blue-100);
+  --source-other: var(--ink-3);
+  --source-other-soft: var(--surface-2);
+  --source-unknown: var(--ink-3);
+  --source-unknown-soft: var(--surface-2);
 
   /* note */
-  --note-bg: #fff9e6;
-  --note-border: #f1e2a8;
-  --warning-text: #8a5a00;
+  --note-bg: var(--amber-50);
+  --note-border: var(--amber-200);
+  --warning-text: var(--amber-700);
 
-  /* error / success */
-  --error: #b42318;
-  --success: #1f7a3e;
-  --error-soft: #feeceb;
-  --error-border: #f5c6c0;
+  /* Form states map to the danger and success ramps. */
+  --error: var(--red-700);
+  --success: var(--green-700);
+  --error-soft: var(--red-100);
+  --error-border: var(--red-200);
 
   /* shape and space */
   --radius: 10px;
   --radius-panel: 16px;
   --radius-sm: 8px;
   --radius-pill: 999px;
-  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04),
-    0 10px 30px rgba(15, 23, 42, 0.04);
-  --shadow-pop: 0 12px 32px rgba(15, 23, 42, 0.14);
-  --shadow-drawer: 0 18px 48px rgba(15, 23, 42, 0.18);
+  /* Standard surfaces are flat. Only overlays and popovers get elevation. */
+  --shadow-card: none;
+  --shadow-accent: none;
+  --shadow-pop: 0 8px 24px color-mix(in srgb, var(--navy) 12%, transparent);
+  --shadow-drawer: 0 18px 48px color-mix(in srgb, var(--navy) 18%, transparent);
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -106,7 +231,19 @@
   --content-max: 1440px;
 
   /* type */
-  --font-heading: "Sora", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-sans: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-heading: var(--font-sans);
+  /* Literal code only: webhook URLs, keys, snippets and payload previews. */
+  --font-code: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Type scale: small meta, control, body, section, page, hero. */
+  --text-xs: 11.5px;
+  --text-sm: 12.5px;
+  --text-control: 13.5px;
+  --text-strong: 14px;
+  --text-body: 15px;
+  --text-count: 20px;
+  --text-section: 17px;
+  --text-page: 26px;
+  --text-hero: 48px;
 }

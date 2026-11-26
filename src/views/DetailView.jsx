@@ -47,8 +47,8 @@ export default function DetailView({
     <section className="detail">
       <header className="detail__header">
         <a className="back-link" href={backHref}>
-          <IconArrowLeft size={16} stroke={1.5} aria-hidden="true" />
-          Back to complaints
+          <IconArrowLeft size={16} aria-hidden="true" />
+          Back to tickets
         </a>
         <p className="reference detail__reference">{complaint.reference}</p>
         <h1 className="detail__title">{complaint.subject}</h1>

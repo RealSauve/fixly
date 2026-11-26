@@ -22,7 +22,7 @@ const STATUS_SHORT = {
 // of the static label.
 export function StatusIcon({ value, size = 14 }) {
   const Icon = STATUS_ICONS[value] ?? IconCircleFilled
-  return <Icon size={size} stroke={2} aria-hidden="true" />
+  return <Icon size={size} aria-hidden="true" />
 }
 
 export default function Status({ value, short = false }) {

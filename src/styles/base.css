@@ -46,7 +46,37 @@ a {
 :focus-visible {
   outline: none;
   box-shadow: var(--focus-ring);
-  border-radius: var(--radius-sm);
+}
+
+/* One icon set, one stroke weight. Tabler sets width/height as attributes so
+   we leave those alone and only normalise layout and stroke. */
+svg.tabler-icon {
+  display: block;
+  flex: none;
+  stroke-width: var(--icon-stroke);
+}
+
+/* Fixed-square icon slot: the icon takes 60% of the box and never clips. */
+.icon-slot {
+  display: inline-flex;
+  flex: 0 0 var(--slot, 36px);
+  align-items: center;
+  justify-content: center;
+  width: var(--slot, 36px);
+  height: var(--slot, 36px);
+  overflow: visible;
+}
+
+.icon-slot > svg {
+  width: 60%;
+  height: 60%;
+}
+
+/* Numbers line up in tables without switching to a monospace face. */
+.num,
+td.num,
+th.num {
+  font-variant-numeric: tabular-nums;
 }
 
 /* Visible to screen readers only */

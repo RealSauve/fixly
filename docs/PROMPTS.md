@@ -41,7 +41,7 @@ Create:
 
 Do not build any other UI yet.
 ```
-**Done when:** the count shows 15; changing a status survives a refresh; "reset" restores the seed.
+**Done when:** the count shows 168; changing a status survives a refresh; "reset" restores the seed.
 
 ---
 
@@ -71,10 +71,10 @@ Build slice 3: the New complaint drawer. Follow PRD 5.3, FR-1 to FR-3 and DESIGN
 - "New complaint" button in the top bar opens the drawer; the N key opens it too (ignore when typing in a field).
 - All fields, validation rules, error messages, character counter, focus handling and focus return exactly as in the PRD.
 - Duplicate guard: disabled button while saving and the 60-second same name + subject warning with "Log anyway" and "Cancel".
-- On success: create the complaint, close the drawer, toast "Complaint CMP-0016 logged" (use the real reference).
+- On success: create the complaint, close the drawer, toast "Complaint CMP-0169 logged" (use the real reference).
 - Put validation in src/lib/validate.js as pure functions.
 ```
-**Done when:** submitting an empty form shows errors and focuses the first one; a valid form adds CMP-0016 at the top of the list; double-clicking creates only one.
+**Done when:** submitting an empty form shows errors and focuses the first one; a valid form adds CMP-0169 at the top of the list; double-clicking creates only one.
 
 ---
 

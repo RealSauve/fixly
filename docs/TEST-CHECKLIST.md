@@ -8,7 +8,7 @@ Run this after slice 7 and again on the live Netlify link. Tick every box.
 - [ ] Empty form shows errors and focuses the first invalid field
 - [ ] Name only (no email or phone) shows "Add an email or a phone number."
 - [ ] Bad email and bad phone formats are rejected with clear messages
-- [ ] Valid form adds a complaint at the top with status New and the next reference (CMP-0016)
+- [ ] Valid form adds a complaint at the top with status New and the next reference (CMP-0169)
 - [ ] Double-clicking "Log complaint" creates only one complaint
 - [ ] Same name and subject within 60 seconds shows the duplicate warning; "Log anyway" works; "Cancel" does not create one
 - [ ] The new complaint's timeline shows "Complaint logged"
@@ -29,12 +29,12 @@ Run this after slice 7 and again on the live Netlify link. Tick every box.
 - [ ] Notes are added to the correct complaint only
 
 ### Dashboard (FR-12)
-- [ ] The four counts match what you see by filtering the list (seed data starts at New 5, In Progress 3, Waiting on Customer 3, High priority 4)
+- [ ] The four counts match what you see by filtering the list (seed data starts at New 9, In Progress 21, Waiting on Customer 28, High priority 18 active)
 - [ ] Clicking a card filters the list; clicking it again clears the filter
 
 ### Data (FR-13, FR-14)
 - [ ] Refresh keeps everything, including new complaints and notes
-- [ ] "Reset demo data" asks for confirmation, then restores the 15 seed complaints
+- [ ] "Reset demo data" asks for confirmation, then restores the 168 seed complaints
 - [ ] Deleting the saved data in browser dev tools and refreshing loads the seed data
 
 ### Layout and keyboard (FR-15, FR-16)

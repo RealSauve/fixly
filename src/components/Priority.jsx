@@ -6,7 +6,7 @@ import { toSlug } from '../lib/slug'
 export default function Priority({ value }) {
   return (
     <span className={`priority priority--${toSlug(value)}`}>
-      <IconFlag size={14} stroke={2} aria-hidden="true" />
+      <IconFlag size={14} aria-hidden="true" />
       <span>{value}</span>
     </span>
   )

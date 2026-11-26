@@ -1,262 +1,273 @@
+import { useState } from 'react'
 import {
-  IconActivity,
+  IconArrowDownRight,
   IconArrowRight,
   IconArrowUpRight,
-  IconCircleDot,
-  IconClockHour4,
+  IconCalendar,
+  IconClock,
   IconFlag,
-  IconPlus,
+  IconMinus,
   IconTicket,
+  IconUser,
 } from '@tabler/icons-react'
 import BarList from '../components/charts/BarList'
 import DonutChart from '../components/charts/DonutChart'
+import PriorityChart from '../components/charts/PriorityChart'
+import Sparkline from '../components/charts/Sparkline'
 import TrendChart from '../components/charts/TrendChart'
-import Priority from '../components/Priority'
-import SourceTag from '../components/SourceTag'
-import Status from '../components/Status'
+import RecentTicketsTable from '../components/RecentTicketsTable'
 import {
+  TREND_PERIODS,
   buildMetrics,
   categoryBreakdown,
-  formatDuration,
-  percent,
+  complaintsInPeriod,
+  dashboardKpis,
   priorityBreakdown,
   sourceBreakdown,
   statusBreakdown,
   trendSeries,
 } from '../lib/analytics'
 
-function MiniStat({ icon: Icon, tone, label, value, foot }) {
+const KPI_ICONS = {
+  total: IconTicket,
+  unassigned: IconUser,
+  high: IconFlag,
+  waiting: IconClock,
+}
+
+const SOURCE_RAMP = [
+  { label: 'Website', color: 'var(--blue-700)' },
+  { label: 'Email', color: 'var(--blue-600)' },
+  { label: 'Phone Call', color: 'var(--blue-500)' },
+  { label: 'WhatsApp', color: 'var(--blue-400)' },
+  { label: 'Other', color: 'var(--blue-200)' },
+]
+const SOURCE_ORDER = SOURCE_RAMP.map((item) => item.label)
+const SOURCE_COLORS = Object.fromEntries(
+  SOURCE_RAMP.map((item) => [item.label, item.color]),
+)
+
+function changeTone(key, changePct) {
+  if (changePct === null || changePct === 0) return 'neutral'
+  if (key === 'unassigned' || key === 'high') {
+    return changePct > 0 ? 'negative' : 'positive'
+  }
+  if (key === 'waiting') return changePct < 0 ? 'positive' : 'neutral'
+  return changePct > 0 ? 'positive' : 'neutral'
+}
+
+function KpiChange({ kpi }) {
+  const tone = changeTone(kpi.key, kpi.changePct)
+  const DirectionIcon =
+    kpi.changePct === null || kpi.changePct === 0
+      ? IconMinus
+      : kpi.changePct > 0
+        ? IconArrowUpRight
+        : IconArrowDownRight
+  const text =
+    kpi.changePct === null ? '-' : `${Math.round(Math.abs(kpi.changePct))}%`
+
   return (
-    <div className="mini-stat">
-      <span className={`mini-stat__icon mini-stat__icon--${tone}`}>
-        <Icon size={16} stroke={1.9} aria-hidden="true" />
+    <span className="kpi-card__change-wrap">
+      <span className={`kpi-card__change kpi-card__change--${tone}`}>
+        <DirectionIcon size={15} aria-hidden="true" />
+        <strong>{text}</strong>
       </span>
-      <span className="mini-stat__label">{label}</span>
-      <span className="mini-stat__value">{value}</span>
-      <span className="mini-stat__foot">{foot}</span>
-    </div>
+      <span className="kpi-card__period">vs last 30 days</span>
+    </span>
   )
 }
 
-export default function DashboardView({ complaints, navigate, onNew }) {
-  const metrics = buildMetrics(complaints)
-  const statuses = statusBreakdown(metrics)
+function CardPeriodSelect({ period, onPeriodChange, label }) {
+  return (
+    <label className="period-select period-select--card">
+      <IconCalendar size={15} aria-hidden="true" />
+      <select
+        className="period-select__control"
+        aria-label={label}
+        value={period}
+        onChange={(event) => onPeriodChange?.(event.target.value)}
+      >
+        {TREND_PERIODS.map((option) => (
+          <option key={option.key} value={option.key}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    </label>
+  )
+}
+
+export default function DashboardView({
+  complaints,
+  navigate,
+  period = '30d',
+  onPeriodChange,
+  onSourceSelect,
+  activeFilter,
+}) {
+  const [activeStatus, setActiveStatus] = useState(null)
+  const [activeSource, setActiveSource] = useState(null)
+
+  // One filtered dataset feeds every card, chart and breakdown on this screen.
+  const visible = complaintsInPeriod(complaints, period)
+  const metrics = buildMetrics(visible)
+  const kpis = dashboardKpis(complaints)
+  const categories = categoryBreakdown(visible)
+  // Dashboard-only ramp: darkest to lightest Fixly blue, no neutral segments.
+  const sources = sourceBreakdown(visible)
+    .map((item) => ({
+      ...item,
+      color: SOURCE_COLORS[item.label] ?? 'var(--blue-200)',
+    }))
+    .filter((item) => SOURCE_ORDER.includes(item.label))
+    .sort(
+      (a, b) => SOURCE_ORDER.indexOf(a.label) - SOURCE_ORDER.indexOf(b.label),
+    )
   const priorities = priorityBreakdown(metrics)
-  const categories = categoryBreakdown(complaints)
-  const sources = sourceBreakdown(complaints)
-  const trend = trendSeries(complaints, 21)
-  const recent = [...complaints]
-    .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-    .slice(0, 7)
+  const trend = trendSeries(complaints, period)
 
-  const loggedInWindow = trend.points.reduce(
-    (sum, point) => sum + point.logged,
-    0,
-  )
-  const resolvedInWindow = trend.points.reduce(
-    (sum, point) => sum + point.resolved,
-    0,
+  const statuses = statusBreakdown(metrics)
+    .map((item, index) => ({ ...item, index }))
+    .sort((a, b) => b.value - a.value || a.index - b.index)
+
+  const recent = [...visible].sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
   )
 
-  function openComplaint(id) {
-    navigate(`#/complaint/${id}`)
+  function openTicket(id) {
+    navigate(`#/ticket/${id}`)
   }
 
   return (
     <div className="dashboard">
-      <div className="dash-row dash-row--top">
-        <article className="dash-hero">
-          <div className="dash-hero__top">
-            <span className="dash-hero__label">Total complaints</span>
-            <span className="dash-hero__badge">
-              <IconTicket size={13} stroke={2} aria-hidden="true" />
-              Live data
-            </span>
-          </div>
-
-          <div>
-            <p className="dash-hero__value">{metrics.total}</p>
-            <p className="dash-hero__sub">
-              {metrics.active} active · {metrics.resolved} resolved
-            </p>
-          </div>
-
-          <div className="dash-hero__actions">
-            <a className="dash-hero__btn dash-hero__btn--light" href="#/complaints">
-              View complaints
-              <IconArrowUpRight size={15} stroke={2} aria-hidden="true" />
-            </a>
-            <button
-              className="dash-hero__btn dash-hero__btn--ghost"
-              type="button"
-              onClick={onNew}
+      <div className="dash-row dash-row--kpis">
+        {kpis.map((kpi) => {
+          const Icon = KPI_ICONS[kpi.key]
+          return (
+            <a
+              key={kpi.key}
+              className={`panel kpi-card kpi-card--${kpi.key}`}
+              href={kpi.href}
+              aria-label={`${kpi.label}: ${kpi.value}. View filtered tickets.`}
             >
-              <IconPlus size={15} stroke={2} aria-hidden="true" />
-              New complaint
-            </button>
-          </div>
-        </article>
-
-        <article className="panel dash-queue">
-          <div className="panel__head">
-            <div>
-              <h2 className="panel__title">Queue health</h2>
-              <p className="panel__sub">A live snapshot of active work</p>
-            </div>
-            <span className="chip chip--live">
-              <IconActivity size={12} stroke={2} aria-hidden="true" />
-              Live
-            </span>
-          </div>
-
-          <div className="mini-stats">
-            <MiniStat
-              icon={IconCircleDot}
-              tone="blue"
-              label="Open"
-              value={metrics.open}
-              foot={`${metrics.new} new · ${metrics.inProgress} in progress`}
-            />
-            <MiniStat
-              icon={IconClockHour4}
-              tone="cyan"
-              label="Waiting"
-              value={metrics.waiting}
-              foot="Waiting on the customer"
-            />
-            <MiniStat
-              icon={IconFlag}
-              tone="red"
-              label="High priority"
-              value={metrics.high}
-              foot={`${metrics.highOpen} still active`}
-            />
-          </div>
-        </article>
-
-        <article className="panel dash-score">
-          <div className="panel__head">
-            <div>
-              <h2 className="panel__title">Resolution rate</h2>
-              <p className="panel__sub">Share of complaints closed</p>
-            </div>
-          </div>
-
-          <div className="score">
-            <span className="score__value">
-              {percent(metrics.resolved, metrics.total)}%
-            </span>
-            <span className="score__meta">
-              {metrics.resolved} of {metrics.total} resolved
-            </span>
-          </div>
-
-          <div className="score__bar">
-            <span
-              style={{ width: `${percent(metrics.resolved, metrics.total)}%` }}
-              aria-hidden="true"
-            />
-          </div>
-
-          <div className="score__row">
-            <span>Average resolution time</span>
-            <strong>{formatDuration(metrics.avgResolutionMs)}</strong>
-          </div>
-
-          <p className="score__note">
-            {metrics.resolved === 0
-              ? 'No complaints have been resolved yet.'
-              : 'Measured from the moment a complaint is logged.'}
-          </p>
-          <p className="score__note score__note--muted">
-            CSAT is not collected in this demo.
-          </p>
-        </article>
+              <span className="kpi-card__top">
+                <span className="kpi-card__icon" aria-hidden="true">
+                  <Icon size={19} aria-hidden="true" />
+                </span>
+                <span className="kpi-card__heading">
+                  <span className="kpi-card__label">{kpi.label}</span>
+                  <strong className="kpi-card__value">{kpi.value}</strong>
+                </span>
+              </span>
+              <span className="kpi-card__bottom">
+                <KpiChange kpi={kpi} />
+                <Sparkline values={kpi.points} className="kpi-card__spark" />
+              </span>
+            </a>
+          )
+        })}
       </div>
 
       <div className="dash-row dash-row--mid">
         <article className="panel dash-trend">
           <div className="panel__head">
-            <div>
-              <h2 className="panel__title">Complaint activity</h2>
-              <p className="panel__sub">
-                Daily volume across 21 days. Hover, tap or use arrow keys for
-                details.
-              </p>
-            </div>
-            <div className="legend" aria-hidden="true">
-              <span className="legend__item">
-                <span className="legend__dot legend__dot--blue" />
-                Logged
-              </span>
-              <span className="legend__item">
-                <span className="legend__dot legend__dot--green" />
-                Resolved
-              </span>
-            </div>
+            <h2 className="panel__title">Ticket activity</h2>
+            <CardPeriodSelect
+              period={period}
+              onPeriodChange={onPeriodChange}
+              label="Ticket activity date range"
+            />
           </div>
 
-          <div className="trend-summary">
-            <div className="trend-summary__item">
-              <span className="trend-summary__value">{loggedInWindow}</span>
-              <span className="trend-summary__label">logged</span>
-            </div>
-            <div className="trend-summary__item">
-              <span className="trend-summary__value">{resolvedInWindow}</span>
-              <span className="trend-summary__label">resolved</span>
-            </div>
-            <div className="trend-summary__item">
-              <span className="trend-summary__value">
-                {formatDuration(metrics.avgResolutionMs)}
-              </span>
-              <span className="trend-summary__label">avg. resolution</span>
-            </div>
+          <div className="trend-legend" aria-label="Ticket activity series">
+            <span className="trend-legend__item">
+              <span
+                className="trend-legend__dot trend-legend__dot--created"
+                aria-hidden="true"
+              />
+              Created
+            </span>
+            <span className="trend-legend__item">
+              <span
+                className="trend-legend__dot trend-legend__dot--resolved"
+                aria-hidden="true"
+              />
+              Resolved
+            </span>
           </div>
 
-          <TrendChart points={trend.points} max={trend.max} />
+          <TrendChart
+            points={trend.points}
+            max={trend.max}
+            granularity={trend.granularity}
+          />
         </article>
+      </div>
 
-        <article className="panel dash-status">
+      <div className="dash-row dash-row--charts">
+        <article className="panel dash-status" aria-label="Status breakdown">
           <div className="panel__head">
             <div>
               <h2 className="panel__title">Status breakdown</h2>
-              <p className="panel__sub">Where complaints stand right now</p>
+              <p className="panel__sub">Where tickets stand</p>
             </div>
           </div>
 
-          <div className="dash-status__body">
-            <div className="dash-status__chart">
-              <DonutChart
-                data={statuses}
-                total={metrics.total}
-                centerLabel="Total"
-                centerValue={metrics.total}
-                size={150}
-                thickness={16}
-              />
-            </div>
-
-            <ul className="legend-list">
+          <div className="status-card__body">
+            <DonutChart
+              data={statuses}
+              total={metrics.total}
+              size={200}
+              sortByValue
+              centerValue={metrics.total}
+              centerLabel="tickets"
+              activeId={activeStatus}
+              onActiveChange={setActiveStatus}
+            />
+            <ul className="donut-legend status-legend">
               {statuses.map((item) => (
                 <li key={item.key}>
-                  <span
-                    className="legend-list__dot"
-                    style={{ '--dot-color': item.color }}
-                  />
-                  <span className="legend-list__label">{item.label}</span>
-                  <strong>{item.value}</strong>
-                  <span className="legend-list__pct">
-                    {percent(item.value, metrics.total)}%
-                  </span>
+                  <button
+                    className={`donut-legend__item${
+                      activeStatus === item.key ? ' is-active' : ''
+                    }`}
+                    type="button"
+                    onMouseEnter={() => setActiveStatus(item.key)}
+                    onMouseLeave={() => setActiveStatus(null)}
+                    onFocus={() => setActiveStatus(item.key)}
+                    onBlur={() => setActiveStatus(null)}
+                  >
+                    <span
+                      className="donut-legend__marker"
+                      style={{ background: item.color }}
+                      aria-hidden="true"
+                    />
+                    <span className="donut-legend__label">{item.label}</span>
+                    <strong className="num">{item.value}</strong>
+                  </button>
                 </li>
               ))}
             </ul>
           </div>
+        </article>
 
-          <div className="panel__divider" />
+        <article className="panel dash-priority">
+          <div className="panel__head">
+            <div>
+              <h2 className="panel__title">Priority</h2>
+              <p className="panel__sub">Active tickets by priority</p>
+            </div>
+            <a className="panel__link" href="#/tickets">
+              View tickets
+              <IconArrowRight size={14} aria-hidden="true" />
+            </a>
+          </div>
 
-          <h3 className="panel__subtitle">By priority</h3>
-          <BarList items={priorities} total={metrics.total} />
+          <PriorityChart
+            items={priorities}
+            max={Math.max(1, ...priorities.map((item) => item.value))}
+          />
         </article>
       </div>
 
@@ -264,117 +275,89 @@ export default function DashboardView({ complaints, navigate, onNew }) {
         <article className="panel dash-recent">
           <div className="panel__head">
             <div>
-              <h2 className="panel__title">Recent complaints</h2>
-              <p className="panel__sub">The latest complaints logged</p>
+              <h2 className="panel__title">Recent tickets</h2>
+              <p className="panel__sub">The latest tickets in this period</p>
             </div>
-            <a className="panel__link" href="#/complaints">
+            <a className="panel__link" href="#/tickets">
               View all
-              <IconArrowRight size={14} stroke={2} aria-hidden="true" />
+              <IconArrowRight size={14} aria-hidden="true" />
             </a>
           </div>
 
           {recent.length === 0 ? (
-            <p className="panel__empty">No complaints yet.</p>
+            <p className="panel__empty">No tickets in this period.</p>
           ) : (
-            <div className="table-wrap">
-              <table className="recent-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Complaint</th>
-                    <th scope="col">Priority</th>
-                    <th scope="col">Status</th>
-                    <th scope="col" className="recent-col-source">
-                      Source
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {recent.map((complaint) => (
-                    <tr
-                      key={complaint.id}
-                      tabIndex={0}
-                      onClick={() => openComplaint(complaint.id)}
-                      onKeyDown={(event) => {
-                        if (event.key !== 'Enter') return
-                        event.preventDefault()
-                        openComplaint(complaint.id)
-                      }}
-                    >
-                      <td>
-                        <span className="recent-table__ref">
-                          {complaint.reference}
-                        </span>
-                        <span className="recent-table__subject">
-                          {complaint.subject}
-                        </span>
-                        <span className="recent-table__customer">
-                          {complaint.customerName}
-                        </span>
-                      </td>
-                      <td>
-                        <Priority value={complaint.priority} />
-                      </td>
-                      <td>
-                        <Status value={complaint.status} short />
-                      </td>
-                      <td className="recent-col-source">
-                        <SourceTag value={complaint.source} />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <RecentTicketsTable tickets={recent} onOpen={openTicket} />
           )}
         </article>
 
         <div className="dash-side">
           <article className="panel dash-sources">
-          <div className="panel__head">
-            <div>
-              <h2 className="panel__title">Complaint sources</h2>
-              <p className="panel__sub">Where complaints come from</p>
+            <div className="panel__head">
+              <h2 className="panel__title">Ticket sources</h2>
+              <CardPeriodSelect
+                period={period}
+                onPeriodChange={onPeriodChange}
+                label="Ticket sources date range"
+              />
             </div>
-            <a className="panel__link" href="#/sources">
-              Details
-              <IconArrowRight size={14} stroke={2} aria-hidden="true" />
+
+            <div className="dash-donut">
+              <DonutChart
+                data={sources}
+                total={metrics.total}
+                size={200}
+                fullRing
+                centerValue={metrics.total}
+                centerLabel="tickets"
+                activeId={activeSource}
+                onActiveChange={setActiveSource}
+              />
+            </div>
+
+            <ul className="source-legend">
+              {sources.map((item) => (
+                <li key={item.label}>
+                  <button
+                    className={`source-legend__item${
+                      activeSource === item.label ? ' is-active' : ''
+                    }`}
+                    type="button"
+                    aria-label={`${item.label}: ${item.value} tickets. Filter list.`}
+                    aria-pressed={activeFilter?.source === item.label}
+                    onMouseEnter={() => setActiveSource(item.label)}
+                    onMouseLeave={() => setActiveSource(null)}
+                    onFocus={() => setActiveSource(item.label)}
+                    onBlur={() => setActiveSource(null)}
+                    onClick={() => onSourceSelect?.(item.label)}
+                  >
+                    <span
+                      className="legend-list__dot"
+                      style={{ '--dot-color': item.color }}
+                      aria-hidden="true"
+                    />
+                    <span className="source-legend__label">{item.label}</span>
+                    <strong className="num">{item.value}</strong>
+                  </button>
+                </li>
+              ))}
+            </ul>
+
+            <a className="panel__link dash-sources__link" href="#/sources">
+              View details
+              <IconArrowRight size={14} aria-hidden="true" />
             </a>
-          </div>
+          </article>
 
-          <div className="dash-donut">
-            <DonutChart
-              data={sources}
-              total={metrics.total}
-              centerLabel="Total"
-              centerValue={metrics.total}
-              size={154}
-              thickness={17}
-            />
-          </div>
-
-          <ul className="source-legend">
-            {sources.map((item) => (
-              <li key={item.label}>
-                <span
-                  className="legend-list__dot"
-                  style={{ '--dot-color': item.color }}
-                />
-                <span className="source-legend__label">{item.label}</span>
-                <strong>{item.value}</strong>
-              </li>
-            ))}
-          </ul>
-        </article>
-
-        <article className="panel dash-categories">
-          <div className="panel__head">
-            <div>
-              <h2 className="panel__title">Top categories</h2>
-              <p className="panel__sub">Complaint volume by type</p>
+          <article className="panel dash-categories">
+            <div className="panel__head">
+              <div>
+                <h2 className="panel__title">Top categories</h2>
+                <p className="panel__sub">Ticket volume by type</p>
+              </div>
             </div>
-          </div>
 
-          <BarList items={categories} total={metrics.total} />
+            <BarList items={categories} total={metrics.total} />
           </article>
         </div>
       </div>

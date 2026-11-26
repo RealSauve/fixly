@@ -24,7 +24,11 @@ export const CATEGORIES = [
 export const SOURCES = [
   'Website',
   'Email',
+  'Webhook',
   'WhatsApp',
+  'Instagram',
+  'Facebook',
+  'X/Twitter',
   'Phone Call',
   'Social Media',
   'Walk-in',

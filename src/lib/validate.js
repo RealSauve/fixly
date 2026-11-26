@@ -50,7 +50,7 @@ export function validateComplaint(values) {
   else if (subject.length > LIMITS.subjectMax)
     errors.subject = `Use ${LIMITS.subjectMax} characters or fewer.`
 
-  if (!description) errors.description = 'Describe the complaint.'
+  if (!description) errors.description = 'Describe the ticket.'
   else if (description.length < LIMITS.descriptionMin)
     errors.description = `Use at least ${LIMITS.descriptionMin} characters.`
   else if (description.length > LIMITS.descriptionMax)

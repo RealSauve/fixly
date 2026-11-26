@@ -76,7 +76,7 @@ function SystemEvent({ event, staff }) {
   return (
     <>
       <span className="timeline__marker" aria-hidden="true">
-        <Icon size={12} stroke={2} />
+        <Icon size={12} />
       </span>
       <div className="timeline__line">
         <span className="timeline__text">{event.text}</span>
@@ -95,11 +95,11 @@ function NoteEvent({ event, staff }) {
   return (
     <>
       <span className="timeline__marker timeline__marker--note" aria-hidden="true">
-        <IconLock size={12} stroke={2} />
+        <IconLock size={12} />
       </span>
       <div className="timeline__note">
         <div className="timeline__note-head">
-          <IconLock size={14} stroke={2} aria-hidden="true" />
+          <IconLock size={14} aria-hidden="true" />
           <span className="timeline__note-label">Internal note</span>
           <span className="timeline__note-meta">
             <span>{actorName(staff, event.actorId)}</span>

@@ -5,34 +5,35 @@ import {
   IconLayoutDashboard,
   IconLayoutSidebarLeftCollapse,
   IconLayoutSidebarLeftExpand,
-  IconRefresh,
-  IconSparkles,
+  IconPlugConnected,
+  IconSettings,
   IconStar,
   IconTicket,
   IconUserCheck,
   IconUserOff,
   IconUsers,
 } from '@tabler/icons-react'
+import SponsoredAd from './SponsoredAd'
 
 const NAV_GROUPS = [
   {
     label: 'Workspace',
     items: [
       { view: 'dashboard', label: 'Dashboard', icon: IconLayoutDashboard },
-      { view: 'complaints', label: 'Complaints', icon: IconTicket },
+      { view: 'tickets', label: 'Tickets', icon: IconTicket },
       { view: 'inbox', label: 'Inbox', icon: IconInbox },
       { view: 'assigned', label: 'Assigned to me', icon: IconUserCheck },
+    ],
+  },
+  {
+    label: 'Insights',
+    items: [
       {
         view: 'unassigned',
         label: 'Unassigned',
         icon: IconUserOff,
         badge: 'unassigned',
       },
-    ],
-  },
-  {
-    label: 'Insights',
-    items: [
       { view: 'sources', label: 'Sources', icon: IconChartDonut },
       { view: 'team', label: 'Team', icon: IconUsers },
       {
@@ -41,6 +42,13 @@ const NAV_GROUPS = [
         icon: IconStar,
         badgeText: 'Soon',
       },
+    ],
+  },
+  {
+    label: 'Manage',
+    items: [
+      { view: 'integrations', label: 'Integrations', icon: IconPlugConnected },
+      { view: 'settings', label: 'Settings', icon: IconSettings },
     ],
   },
 ]
@@ -81,17 +89,18 @@ function SidebarItem({
       onFocus={(event) => onShowTooltip(event, item.label)}
       onBlur={onHideTooltip}
     >
-      <Icon
-        className="sidebar__icon"
-        size={20}
-        stroke={1.8}
-        aria-hidden="true"
-      />
+      <span className="icon-slot sidebar__icon-slot">
+        <Icon className="sidebar__icon" size={20} aria-hidden="true" />
+      </span>
       <span className="sidebar__label">{item.label}</span>
       {badge > 0 ? (
-        <span className="sidebar__badge">
+        <span
+          className={`sidebar__badge${
+            item.badge === 'unassigned' ? ' sidebar__badge--danger' : ''
+          }`}
+        >
           {badge}
-          <span className="sr-only"> complaints unassigned</span>
+          <span className="sr-only"> tickets unassigned</span>
         </span>
       ) : null}
       {item.badgeText ? (
@@ -108,7 +117,6 @@ export default function Sidebar({
   unassignedCount,
   open,
   onNavigate,
-  onReset,
   userName,
   userRole,
 }) {
@@ -182,13 +190,11 @@ export default function Sidebar({
             {isCollapsed ? (
               <IconLayoutSidebarLeftExpand
                 size={18}
-                stroke={1.8}
                 aria-hidden="true"
               />
             ) : (
               <IconLayoutSidebarLeftCollapse
                 size={18}
-                stroke={1.8}
                 aria-hidden="true"
               />
             )}
@@ -229,35 +235,7 @@ export default function Sidebar({
         </div>
 
         <div className="sidebar__footer">
-          {isCollapsed ? (
-            <button
-              className="sidebar__reset"
-              type="button"
-              title="Reset demo data"
-              aria-label="Reset demo data"
-              onClick={onReset}
-            >
-              <IconRefresh size={18} stroke={1.8} aria-hidden="true" />
-            </button>
-          ) : (
-            <div className="sidebar__promo">
-              <span className="sidebar__promo-icon">
-                <IconSparkles size={17} stroke={1.8} aria-hidden="true" />
-              </span>
-              <p className="sidebar__promo-title">Demo workspace</p>
-              <p className="sidebar__promo-text">
-                Changes are saved in this browser only.
-              </p>
-              <button
-                className="sidebar__promo-btn"
-                type="button"
-                onClick={onReset}
-              >
-                <IconRefresh size={14} stroke={1.9} aria-hidden="true" />
-                Reset demo data
-              </button>
-            </div>
-          )}
+          {isCollapsed ? null : <SponsoredAd />}
         </div>
       </nav>
 
