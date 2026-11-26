@@ -1549,10 +1549,6 @@
    ========================================================= */
 
 @media (max-width: 1279px) {
-  .dash-row--kpis {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .dash-row--mid {
     grid-template-columns: 1fr;
   }
