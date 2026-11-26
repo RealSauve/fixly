@@ -6,7 +6,7 @@ It is a portfolio prototype. Everything runs in the browser, there is no backend
 
 ## Screenshot
 
-_Add a screenshot of the Overview screen here before publishing._
+_Add a screenshot of the Dashboard screen here before publishing._
 
 ## Run it
 
@@ -29,13 +29,14 @@ The static site is written to `dist/`. On Netlify use build command `npm run bui
 
 | Route | What it does |
 | --- | --- |
-| `#/` | Overview: headline count, filters and the full complaint table |
+| `#/` | Dashboard: totals, queue health, resolution rate, 21-day activity trend, status/priority/source charts and recent complaints |
+| `#/complaints` | Full complaint list with search, status/priority/source filters and sort |
 | `#/inbox` | Split list and detail view for quick triage (one column below 1024px) |
 | `#/assigned` | Complaints assigned to the signed-in user |
 | `#/unassigned` | Complaints without an owner |
-| `#/reviews` | Placeholder for review-sourced complaints (Phase 2) |
-| `#/sources` | Placeholder for intake sources (Phase 2) |
-| `#/team` | Sample staff list |
+| `#/sources` | Intake mix and performance for each source |
+| `#/team` | Workload and resolution performance by person |
+| `#/reviews` | Placeholder for review-platform complaints (Phase 2) |
 | `#/complaint/<id>` | Complaint detail: description, customer, controls and timeline |
 
 The New complaint drawer opens from the top bar or with the `N` key. `/` focuses search. On mobile the sidebar becomes an overlay and each complaint is a card.
@@ -48,17 +49,22 @@ The New complaint drawer opens from the top bar or with the `N` key. `/` focuses
 - DM Sans, Sora and JetBrains Mono from Google Fonts
 - A small hash router (`#/` and `#/complaint/<id>`), no router library
 - All state in `useComplaints`, persisted to `localStorage`
+- Charts are hand-built SVG/CSS components, with no chart library
 
 ## Folder structure
 
 ```
 src/
-  components/    Sidebar, TopBar, ComplaintTable, Status, Priority, Timeline,
-                 NewComplaintDrawer, Field, Toast, EmptyState, Footer
-  views/         ComplaintsView, DetailView, NotFoundView
+  components/    Sidebar, TopBar, ComplaintTable, Status, Priority, SourceTag,
+                 Timeline, NewComplaintDrawer, Field, Toast, EmptyState,
+                 charts/ (DonutChart, BarList, TrendChart)
+  views/         DashboardView, ComplaintsView, SourcesView, TeamView,
+                 DetailView, NotFoundView
   hooks/         useComplaints, useHashRoute, useToast
-  lib/           storage, format, validate, constants, stats, slug
-  styles/        tokens.css, base.css, layout.css, components.css
+  lib/           analytics, sources, storage, format, validate, constants,
+                 stats, slug
+  styles/        tokens.css, base.css, layout.css, components.css,
+                 dashboard.css
   data/          seed.json
   App.jsx
   main.jsx
@@ -68,14 +74,14 @@ src/
 
 - 15 sample complaints, 5 staff and their full timelines load on first run.
 - Everything is saved under the `complaint-tracker:v1` key in `localStorage`.
-- **Reset demo data** in the footer restores the sample set. Reference numbers are never reused, so a new complaint after a reset continues from the last counter.
+- **Reset demo data** in the sidebar restores the sample set. Reference numbers are never reused, so a new complaint after a reset continues from the last counter.
 - Deleting the key in browser dev tools and refreshing reloads the seed data.
 
 ## What's next
 
 From the PRD's "Later" list:
 
-- Review and source intake behind the Reviews and Sources placeholders
+- Review-platform intake behind the Reviews placeholder
 - Open and Closed statuses, and an Urgent priority
 - Export (CSV)
 - A real backend and authentication

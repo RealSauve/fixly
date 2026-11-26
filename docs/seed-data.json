@@ -1,5 +1,5 @@
 {
-  "version": 1,
+  "version": 2,
   "counter": 15,
   "staff": [
     {
@@ -43,7 +43,8 @@
       "assigneeId": "s2",
       "createdAt": "2026-11-03T09:15:00+01:00",
       "updatedAt": "2026-11-03T18:43:00+01:00",
-      "resolvedAt": null
+      "resolvedAt": null,
+      "source": "Email"
     },
     {
       "id": "c-2",
@@ -59,7 +60,8 @@
       "assigneeId": "s3",
       "createdAt": "2026-11-03T11:40:00+01:00",
       "updatedAt": "2026-11-05T02:15:00+01:00",
-      "resolvedAt": "2026-11-05T01:08:00+01:00"
+      "resolvedAt": "2026-11-05T01:08:00+01:00",
+      "source": "Website"
     },
     {
       "id": "c-3",
@@ -75,7 +77,8 @@
       "assigneeId": "s4",
       "createdAt": "2026-11-05T08:30:00+01:00",
       "updatedAt": "2026-11-05T14:51:00+01:00",
-      "resolvedAt": null
+      "resolvedAt": null,
+      "source": "Phone Call"
     },
     {
       "id": "c-4",
@@ -91,7 +94,8 @@
       "assigneeId": "s2",
       "createdAt": "2026-11-06T14:05:00+01:00",
       "updatedAt": "2026-11-06T20:26:00+01:00",
-      "resolvedAt": null
+      "resolvedAt": null,
+      "source": "WhatsApp"
     },
     {
       "id": "c-5",
@@ -107,7 +111,8 @@
       "assigneeId": null,
       "createdAt": "2026-11-18T10:20:00+01:00",
       "updatedAt": "2026-11-18T10:20:00+01:00",
-      "resolvedAt": null
+      "resolvedAt": null,
+      "source": "Email"
     },
     {
       "id": "c-6",
@@ -123,7 +128,8 @@
       "assigneeId": null,
       "createdAt": "2026-11-19T08:50:00+01:00",
       "updatedAt": "2026-11-19T08:50:00+01:00",
-      "resolvedAt": null
+      "resolvedAt": null,
+      "source": "Website"
     },
     {
       "id": "c-7",
@@ -139,7 +145,8 @@
       "assigneeId": "s3",
       "createdAt": "2026-11-07T16:10:00+01:00",
       "updatedAt": "2026-11-08T16:38:00+01:00",
-      "resolvedAt": null
+      "resolvedAt": null,
+      "source": "WhatsApp"
     },
     {
       "id": "c-8",
@@ -155,7 +162,8 @@
       "assigneeId": "s5",
       "createdAt": "2026-11-09T12:00:00+01:00",
       "updatedAt": "2026-11-09T22:28:00+01:00",
-      "resolvedAt": "2026-11-09T21:21:00+01:00"
+      "resolvedAt": "2026-11-09T21:21:00+01:00",
+      "source": "Email"
     },
     {
       "id": "c-9",
@@ -171,7 +179,8 @@
       "assigneeId": "s4",
       "createdAt": "2026-11-17T19:30:00+01:00",
       "updatedAt": "2026-11-18T11:37:00+01:00",
-      "resolvedAt": null
+      "resolvedAt": null,
+      "source": "Social Media"
     },
     {
       "id": "c-10",
@@ -187,7 +196,8 @@
       "assigneeId": "s2",
       "createdAt": "2026-11-10T13:25:00+01:00",
       "updatedAt": "2026-11-12T20:53:00+01:00",
-      "resolvedAt": "2026-11-12T20:53:00+01:00"
+      "resolvedAt": "2026-11-12T20:53:00+01:00",
+      "source": "Website"
     },
     {
       "id": "c-11",
@@ -203,7 +213,8 @@
       "assigneeId": "s2",
       "createdAt": "2026-11-12T09:00:00+01:00",
       "updatedAt": "2026-11-12T15:21:00+01:00",
-      "resolvedAt": null
+      "resolvedAt": null,
+      "source": "Email"
     },
     {
       "id": "c-12",
@@ -219,7 +230,8 @@
       "assigneeId": "s1",
       "createdAt": "2026-11-13T15:45:00+01:00",
       "updatedAt": "2026-11-13T20:13:00+01:00",
-      "resolvedAt": "2026-11-13T20:06:00+01:00"
+      "resolvedAt": "2026-11-13T20:06:00+01:00",
+      "source": "Walk-in"
     },
     {
       "id": "c-13",
@@ -235,7 +247,8 @@
       "assigneeId": "s3",
       "createdAt": "2026-11-14T11:15:00+01:00",
       "updatedAt": "2026-11-14T14:36:00+01:00",
-      "resolvedAt": null
+      "resolvedAt": null,
+      "source": "Phone Call"
     },
     {
       "id": "c-14",
@@ -251,7 +264,8 @@
       "assigneeId": null,
       "createdAt": "2026-11-19T09:30:00+01:00",
       "updatedAt": "2026-11-19T09:30:00+01:00",
-      "resolvedAt": null
+      "resolvedAt": null,
+      "source": "Website"
     },
     {
       "id": "c-15",
@@ -267,7 +281,8 @@
       "assigneeId": null,
       "createdAt": "2026-11-18T16:40:00+01:00",
       "updatedAt": "2026-11-18T16:40:00+01:00",
-      "resolvedAt": null
+      "resolvedAt": null,
+      "source": "Other"
     }
   ],
   "events": [

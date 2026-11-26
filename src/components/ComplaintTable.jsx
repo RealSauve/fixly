@@ -4,6 +4,7 @@ import { formatFullDate, formatRelativeTime } from '../lib/format'
 import { toSlug } from '../lib/slug'
 import Priority from './Priority'
 import { StatusIcon } from './Status'
+import SourceTag from './SourceTag'
 
 export default function ComplaintTable({
   complaints,
@@ -14,13 +15,16 @@ export default function ComplaintTable({
 }) {
   return (
     <div className="table-wrap">
-      <table className="table">
+      <table className="table table--complaints">
         <thead>
           <tr>
             <th scope="col">Reference</th>
             <th scope="col">Subject</th>
             <th scope="col" className="col-category">
               Category
+            </th>
+            <th scope="col" className="col-source">
+              Source
             </th>
             <th scope="col" className="col-priority">
               Priority
@@ -64,6 +68,9 @@ export default function ComplaintTable({
                 </span>
               </td>
               <td className="col-category">{complaint.category}</td>
+              <td className="col-source">
+                <SourceTag value={complaint.source} />
+              </td>
               <td className="col-priority">
                 <Priority value={complaint.priority} />
               </td>

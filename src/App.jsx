@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { IconPlug } from '@tabler/icons-react'
+import { IconStar } from '@tabler/icons-react'
 import EmptyState from './components/EmptyState'
-import Footer from './components/Footer'
 import NewComplaintDrawer from './components/NewComplaintDrawer'
 import Sidebar from './components/Sidebar'
 import Toast from './components/Toast'
@@ -11,48 +10,52 @@ import { useComplaints } from './hooks/useComplaints'
 import { useHashRoute } from './hooks/useHashRoute'
 import { useToast } from './hooks/useToast'
 import ComplaintsView from './views/ComplaintsView'
+import DashboardView from './views/DashboardView'
 import DetailView from './views/DetailView'
 import NotFoundView from './views/NotFoundView'
+import SourcesView from './views/SourcesView'
+import TeamView from './views/TeamView'
 
-const VIEW_TITLES = {
-  overview: 'Overview',
-  inbox: 'Inbox',
-  reviews: 'Reviews',
-  assigned: 'Assigned to me',
-  unassigned: 'Unassigned',
-  sources: 'Sources',
-  team: 'Team',
+const VIEW_META = {
+  dashboard: {
+    title: 'Dashboard',
+    subtitle: 'A live view of your complaint queue.',
+  },
+  complaints: {
+    title: 'Complaints',
+    subtitle: 'Every complaint, in one place.',
+  },
+  inbox: {
+    title: 'Inbox',
+    subtitle: 'Triage complaints without leaving the list.',
+  },
+  assigned: {
+    title: 'Assigned to me',
+    subtitle: 'Complaints that need your attention.',
+  },
+  unassigned: {
+    title: 'Unassigned',
+    subtitle: 'Complaints still waiting for an owner.',
+  },
+  sources: {
+    title: 'Complaint sources',
+    subtitle: 'Where your complaints come from.',
+  },
+  team: {
+    title: 'Team & workload',
+    subtitle: 'How work is spread across the team.',
+  },
+  reviews: {
+    title: 'Reviews',
+    subtitle: 'Feedback gathered from review platforms.',
+  },
 }
 
-function initials(name) {
-  return name
-    .split(/\s+/)
-    .map((part) => part[0])
-    .slice(0, 2)
-    .join('')
-    .toUpperCase()
-}
-
-function TeamList({ staff }) {
-  return (
-    <section className="team" aria-label="Team">
-      <ul className="team__list">
-        {staff.map((person) => (
-          <li className="team__row" key={person.id}>
-            <span className="team__avatar" aria-hidden="true">
-              {initials(person.name)}
-            </span>
-            <span className="team__name">{person.name}</span>
-            <span className="team__role">{person.role}</span>
-          </li>
-        ))}
-      </ul>
-    </section>
-  )
-}
+// Views that show the complaint list and use the search field.
+const LIST_VIEWS = ['complaints', 'inbox', 'assigned', 'unassigned']
 
 function App() {
-  const { name, id, view = 'overview', navigate } = useHashRoute()
+  const { name, id, view = 'complaints', navigate } = useHashRoute()
   const {
     complaints,
     events,
@@ -70,13 +73,21 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [query, setQuery] = useState('')
   const [listVersion, setListVersion] = useState(0)
-  const [lastListView, setLastListView] = useState('overview')
+  const [lastView, setLastView] = useState('complaints')
   const newButtonRef = useRef(null)
   const announced = useRef(false)
 
-  // A complaint screen keeps the sidebar highlight on the list it came from.
+  // A detail screen keeps the sidebar highlight on the screen it came from.
   useEffect(() => {
-    if (name === 'list') setLastListView(view)
+    if (name === 'dashboard') setLastView('dashboard')
+    else if (name === 'list' && LIST_VIEWS.includes(view)) setLastView(view)
+  }, [name, view])
+
+  // Search only applies to complaint lists. Leaving those screens clears it.
+  useEffect(() => {
+    const searchable =
+      name === 'dashboard' || (name === 'list' && LIST_VIEWS.includes(view))
+    if (!searchable) setQuery('')
   }, [name, view])
 
   useEffect(() => {
@@ -107,10 +118,21 @@ function App() {
       setDrawerOpen(false)
       setListVersion((version) => version + 1)
       showToast(`Complaint ${complaint.reference} logged`)
-      if (name !== 'list') navigate('#/')
+      const onComplaintList = name === 'list' && LIST_VIEWS.includes(view)
+      if (!onComplaintList) navigate('#/complaints')
       requestAnimationFrame(() => newButtonRef.current?.focus())
     },
-    [showToast, name, navigate],
+    [showToast, name, view, navigate],
+  )
+
+  const handleQueryChange = useCallback(
+    (value) => {
+      setQuery(value)
+      // Searching from the dashboard jumps to the full list so the results
+      // are visible without a second action.
+      if (name === 'dashboard') navigate('#/complaints')
+    },
+    [name, navigate],
   )
 
   useEffect(() => {
@@ -143,13 +165,18 @@ function App() {
         if (search) {
           event.preventDefault()
           search.focus()
+        } else {
+          navigate('#/complaints')
+          requestAnimationFrame(() =>
+            document.querySelector('.search__input')?.focus(),
+          )
         }
       }
     }
 
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [drawerOpen, menuOpen, openDrawer])
+  }, [drawerOpen, menuOpen, openDrawer, navigate])
 
   function handleReset() {
     const confirmed = window.confirm(
@@ -159,8 +186,10 @@ function App() {
 
     resetData()
     setListVersion((version) => version + 1)
+    setQuery('')
+    setMenuOpen(false)
     showToast('Demo data restored')
-    if (name !== 'list') navigate('#/')
+    navigate('#/')
   }
 
   const complaint =
@@ -168,23 +197,37 @@ function App() {
 
   const currentUser =
     staff.find((person) => person.id === CURRENT_USER_ID) ?? staff[0]
-  const userName = currentUser?.name ?? ''
 
-  // Review complaints with no reply yet. Sources arrive in Part 2, so this
-  // is zero (and hidden) for now.
-  const reviewsNoReply = complaints.filter(
-    (item) => item.source && !item.repliedAt,
-  ).length
+  const activeView =
+    name === 'dashboard' ? 'dashboard' : name === 'list' ? view : lastView
+
   const unassignedCount = complaints.filter((item) => !item.assigneeId).length
 
-  const title =
-    name === 'notFound'
-      ? 'Fixly'
-      : name === 'detail'
-        ? (complaint?.reference ?? 'Fixly')
-        : VIEW_TITLES[view]
+  const viewMeta =
+    name === 'dashboard'
+      ? VIEW_META.dashboard
+      : name === 'list'
+        ? VIEW_META[view]
+        : null
 
-  const backHref = lastListView === 'overview' ? '#/' : `#/${lastListView}`
+  const title =
+    name === 'detail'
+      ? (complaint?.reference ?? 'Complaint')
+      : name === 'notFound'
+        ? 'Page not found'
+        : (viewMeta?.title ?? 'Fixly')
+
+  const subtitle =
+    name === 'detail'
+      ? (complaint?.subject ?? 'Complaint detail')
+      : name === 'notFound'
+        ? 'The page you are looking for does not exist.'
+        : (viewMeta?.subtitle ?? '')
+
+  const searchEnabled =
+    name === 'dashboard' || (name === 'list' && LIST_VIEWS.includes(view))
+
+  const backHref = lastView === 'dashboard' ? '#/' : `#/${lastView}`
 
   function renderDetail(item) {
     return (
@@ -203,10 +246,27 @@ function App() {
   }
 
   let content
-  if (name === 'list' && view === 'sources') {
-    content = <EmptyState text="No sources yet." icon={IconPlug} />
+  if (name === 'dashboard') {
+    content = (
+      <DashboardView
+        complaints={complaints}
+        navigate={navigate}
+        onNew={openDrawer}
+      />
+    )
+  } else if (name === 'list' && view === 'reviews') {
+    content = (
+      <section className="page-empty">
+        <EmptyState
+          icon={IconStar}
+          text="Reviews aren’t connected yet. When review platforms are added, their complaints will appear here."
+        />
+      </section>
+    )
+  } else if (name === 'list' && view === 'sources') {
+    content = <SourcesView complaints={complaints} />
   } else if (name === 'list' && view === 'team') {
-    content = <TeamList staff={staff} />
+    content = <TeamView complaints={complaints} staff={staff} />
   } else if (name === 'list') {
     content = (
       <ComplaintsView
@@ -233,27 +293,29 @@ function App() {
   return (
     <div className="app">
       <Sidebar
-        activeView={name === 'list' ? view : lastListView}
-        reviewsNoReply={reviewsNoReply}
+        activeView={activeView}
         unassignedCount={unassignedCount}
         open={menuOpen}
         onNavigate={() => setMenuOpen(false)}
+        onReset={handleReset}
+        userName={currentUser?.name ?? 'Support lead'}
+        userRole={currentUser?.role ?? 'Support team'}
       />
       <div className="app__main">
         <TopBar
           title={title}
+          subtitle={subtitle}
           query={query}
-          onQueryChange={setQuery}
+          onQueryChange={handleQueryChange}
           onNew={openDrawer}
           newButtonRef={newButtonRef}
           onMenu={() => setMenuOpen(true)}
-          userName={userName}
-          userInitials={userName ? initials(userName) : ''}
+          userName={currentUser?.name ?? ''}
+          searchEnabled={searchEnabled}
         />
         <main className="page" aria-label="Fixly complaint tracker">
           {content}
         </main>
-        <Footer onReset={handleReset} />
       </div>
       {drawerOpen ? (
         <NewComplaintDrawer

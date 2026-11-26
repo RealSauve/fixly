@@ -58,6 +58,7 @@ export function useComplaints() {
         subject: input.subject?.trim() ?? '',
         description: input.description?.trim() ?? '',
         category: input.category ?? CATEGORIES[0],
+        source: input.source ?? 'Other',
         priority: input.priority ?? 'Medium',
         status: 'New',
         assigneeId: input.assigneeId ?? null,

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { IconX } from '@tabler/icons-react'
-import { CATEGORIES, PRIORITIES } from '../lib/constants'
+import { CATEGORIES, PRIORITIES, SOURCES } from '../lib/constants'
 import {
   LIMITS,
   findRecentDuplicate,
@@ -15,6 +15,7 @@ const EMPTY_VALUES = {
   subject: '',
   description: '',
   category: '',
+  source: '',
   priority: 'Medium',
   assigneeId: '',
 }
@@ -43,6 +44,7 @@ export default function NewComplaintDrawer({
   const subjectRef = useRef(null)
   const descriptionRef = useRef(null)
   const categoryRef = useRef(null)
+  const sourceRef = useRef(null)
   const submitRef = useRef(null)
   const warningRef = useRef(null)
   const savingRef = useRef(false)
@@ -114,6 +116,7 @@ export default function NewComplaintDrawer({
     if (nextErrors.subject) return subjectRef.current?.focus()
     if (nextErrors.description) return descriptionRef.current?.focus()
     if (nextErrors.category) return categoryRef.current?.focus()
+    if (nextErrors.source) return sourceRef.current?.focus()
   }
 
   function submit(force = false) {
@@ -315,6 +318,35 @@ export default function NewComplaintDrawer({
                 {CATEGORIES.map((category) => (
                   <option key={category} value={category}>
                     {category}
+                  </option>
+                ))}
+              </select>
+            </Field>
+
+            <Field
+              id="source"
+              label="Complaint source"
+              error={errors.source}
+              hint="Where the complaint reached you."
+            >
+              <select
+                ref={sourceRef}
+                className="field__select"
+                id="source"
+                name="source"
+                value={values.source}
+                aria-invalid={Boolean(errors.source)}
+                aria-describedby={describedBy(
+                  errors.source && 'source-error',
+                  'source-hint',
+                )}
+                onChange={(event) => update('source', event.target.value)}
+                onBlur={validateOnBlur}
+              >
+                <option value="">Select a source</option>
+                {SOURCES.map((source) => (
+                  <option key={source} value={source}>
+                    {source}
                   </option>
                 ))}
               </select>

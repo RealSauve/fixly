@@ -1,34 +1,74 @@
 :root {
   /* surfaces */
-  --canvas: #f2f5f9;
+  --canvas: #f4f6fa;
   --surface: #ffffff;
-  --line: #dde4ed;
+  --surface-2: #f7f9fc;
+  --line: #e6ebf2;
+  --line-strong: #d6dee9;
 
   /* text */
-  --ink: #0e1a2b;
-  --ink-2: #4a5a70;
-  --ink-3: #66768b;
+  --ink: #0b1b33;
+  --ink-2: #48607a;
+  --ink-3: #7c8da3;
 
-  /* accents */
+  /* brand accents */
   --blue: #1b5fd9;
-  --blue-hover: #1750bb;
-  --blue-soft: #e8effc;
+  --blue-hover: #164db3;
+  --blue-soft: #e9f0fd;
   --cyan: #13b5e6;
+  --navy: #0b1b33;
+  --navy-2: #123a6b;
+  --green: #1f7a3e;
+  --green-soft: #e8f6ed;
+  --amber: #b45309;
+  --amber-soft: #fdf3e4;
+  --red: #b42318;
+  --red-soft: #feeceb;
 
-  /* shell */
-  --sidebar: #0e1a2b;
-  --sidebar-active: #1a2a42;
-  --focus-ring: 0 0 0 3px rgba(27, 95, 217, 0.4);
+  /* light shell */
+  --sidebar: #ffffff;
+  --sidebar-active: #eef3fa;
+  --sidebar-ink: #5d6f86;
+  --sidebar-ink-strong: #14243c;
+  --sidebar-line: #edf1f6;
 
-  /* status (icon colours) */
+  --focus-ring: 0 0 0 3px rgba(27, 95, 217, 0.28);
+
+  /* status */
   --status-new: #1b5fd9;
-  --status-progress: #13b5e6;
-  --status-waiting: #66768b;
+  --status-new-soft: #e9f0fd;
+  --status-progress: #0e93c4;
+  --status-progress-soft: #e3f6fd;
+  --status-waiting: #64748b;
+  --status-waiting-soft: #f1f5f9;
   --status-resolved: #1f7a3e;
+  --status-resolved-soft: #e8f6ed;
 
-  /* priority (flag colours) */
-  --priority-medium: #4a5a70;
-  --priority-high: #b02a1f;
+  /* priority */
+  --priority-high: #b42318;
+  --priority-high-soft: #feeceb;
+  --priority-medium: #b45309;
+  --priority-medium-soft: #fdf3e4;
+  --priority-low: #64748b;
+  --priority-low-soft: #f1f5f9;
+
+  /* complaint sources (soft chips) */
+  --source-website: #2563eb;
+  --source-website-soft: #e9efff;
+  --source-email: #7c3aed;
+  --source-email-soft: #f1eafe;
+  --source-phone-call: #0e93c4;
+  --source-phone-call-soft: #e3f6fd;
+  --source-whatsapp: #15803d;
+  --source-whatsapp-soft: #e7f8ed;
+  --source-social-media: #be185d;
+  --source-social-media-soft: #fdebf4;
+  --source-walk-in: #b45309;
+  --source-walk-in-soft: #fdf3e4;
+  --source-other: #64748b;
+  --source-other-soft: #f1f5f9;
+  --source-unknown: #64748b;
+  --source-unknown-soft: #f1f5f9;
 
   /* note */
   --note-bg: #fff9e6;
@@ -36,24 +76,34 @@
   --warning-text: #8a5a00;
 
   /* error / success */
-  --error: #c0392b;
+  --error: #b42318;
   --success: #1f7a3e;
-  --error-soft: #fdecea;
+  --error-soft: #feeceb;
   --error-border: #f5c6c0;
 
   /* shape and space */
-  --radius: 8px;      /* controls */
-  --radius-panel: 12px; /* panels */
-  --radius-sm: 6px;   /* chips */
-  --shadow-drawer: 0 8px 32px rgba(0, 0, 0, 0.12);
-  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
-  --space-5: 24px; --space-6: 32px; --space-7: 48px;
+  --radius: 10px;
+  --radius-panel: 16px;
+  --radius-sm: 8px;
+  --radius-pill: 999px;
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.04),
+    0 10px 30px rgba(15, 23, 42, 0.04);
+  --shadow-pop: 0 12px 32px rgba(15, 23, 42, 0.14);
+  --shadow-drawer: 0 18px 48px rgba(15, 23, 42, 0.18);
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
 
   /* layout */
-  --sidebar-width: 232px;
-  --rail-width: 76px;
-  --topbar-height: 56px;
-  --inbox-list-width: 380px;
+  --sidebar-width: 252px;
+  --rail-width: 84px;
+  --topbar-height: 84px;
+  --inbox-list-width: 390px;
+  --content-max: 1440px;
 
   /* type */
   --font-heading: "Sora", system-ui, -apple-system, "Segoe UI", sans-serif;

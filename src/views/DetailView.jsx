@@ -1,5 +1,6 @@
 import { IconArrowLeft } from '@tabler/icons-react'
 import Field from '../components/Field'
+import SourceTag from '../components/SourceTag'
 import Timeline from '../components/Timeline'
 import { PRIORITIES, STATUSES } from '../lib/constants'
 import { formatDate, formatFullDate } from '../lib/format'
@@ -155,6 +156,10 @@ export default function DetailView({
 
             <dl className="detail__meta">
               <MetaRow label="Category" value={complaint.category} />
+              <MetaRow
+                label="Source"
+                value={<SourceTag value={complaint.source} />}
+              />
               <MetaRow
                 label="Created"
                 value={formatFullDate(complaint.createdAt)}

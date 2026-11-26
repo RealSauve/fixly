@@ -18,3 +18,15 @@ export const CATEGORIES = [
   'Account Access',
   'Other',
 ]
+
+// Where a complaint came from. Kept as a list so the drawer, filters and
+// analytics all read the same options.
+export const SOURCES = [
+  'Website',
+  'Email',
+  'WhatsApp',
+  'Phone Call',
+  'Social Media',
+  'Walk-in',
+  'Other',
+]

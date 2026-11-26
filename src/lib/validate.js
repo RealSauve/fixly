@@ -58,6 +58,8 @@ export function validateComplaint(values) {
 
   if (!values.category) errors.category = 'Choose a category.'
 
+  if (!values.source) errors.source = 'Choose a source.'
+
   return errors
 }
 

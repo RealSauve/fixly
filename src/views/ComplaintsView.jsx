@@ -7,8 +7,9 @@ import ComplaintTable from '../components/ComplaintTable'
 import EmptyState from '../components/EmptyState'
 import Priority from '../components/Priority'
 import Status from '../components/Status'
-import { CURRENT_USER_ID, STATUSES } from '../lib/constants'
+import { CURRENT_USER_ID, SOURCES, STATUSES } from '../lib/constants'
 import { formatFullDate, formatRelativeTime } from '../lib/format'
+import { normaliseSource } from '../lib/sources'
 
 const ALL = 'All'
 const ACTIVE = 'All active'
@@ -27,31 +28,6 @@ function byCreatedAt(direction) {
   }
 }
 
-// One headline sentence instead of stat tiles: complaints whose next reply
-// is ours (New or In Progress), with the high-priority count called out.
-function headlineFor(complaints) {
-  if (complaints.length === 0) return null
-
-  const waiting = complaints.filter(
-    (complaint) =>
-      complaint.status === 'New' || complaint.status === 'In Progress',
-  )
-  const high = waiting.filter(
-    (complaint) => complaint.priority === 'High',
-  ).length
-
-  if (waiting.length === 0) return 'No complaints are waiting for a reply.'
-
-  const head =
-    waiting.length === 1
-      ? '1 complaint is waiting for a reply'
-      : `${waiting.length} complaints are waiting for a reply`
-
-  if (high === 0) return `${head}.`
-  if (waiting.length === 1) return `${head} and it is high priority.`
-  return `${head}, ${high} of them high priority.`
-}
-
 // The sidebar view decides which complaints the list starts from.
 function scopedList(view, complaints) {
   if (view === 'assigned') {
@@ -62,15 +38,12 @@ function scopedList(view, complaints) {
   if (view === 'unassigned') {
     return complaints.filter((complaint) => !complaint.assigneeId)
   }
-  if (view === 'reviews') {
-    // Review sources arrive in Part 2, so nothing matches yet.
-    return complaints.filter((complaint) => Boolean(complaint.source))
-  }
   return complaints
 }
 
 const EMPTY_TEXT = {
-  reviews: 'No reviews yet.',
+  complaints: 'No complaints yet. Log your first one.',
+  inbox: 'No complaints yet. Log your first one.',
   assigned: 'Nothing assigned to you yet.',
   unassigned: 'Every complaint has an owner.',
 }
@@ -120,6 +93,7 @@ export default function ComplaintsView({
 }) {
   const [status, setStatus] = useState(ALL)
   const [priority, setPriority] = useState(ALL)
+  const [source, setSource] = useState(ALL)
   const [sort, setSort] = useState('newest')
   const [selectedId, setSelectedId] = useState(null)
 
@@ -154,17 +128,26 @@ export default function ComplaintsView({
           return false
         }
 
+        if (source !== ALL && normaliseSource(complaint.source) !== source) {
+          return false
+        }
+
         return true
       })
       .sort(byCreatedAt(sort))
-  }, [scoped, query, status, priority, sort])
+  }, [scoped, query, status, priority, source, sort])
 
-  const hasFilters = query.trim() !== '' || status !== ALL || priority !== ALL
+  const hasFilters =
+    query.trim() !== '' ||
+    status !== ALL ||
+    priority !== ALL ||
+    source !== ALL
 
   function clearFilters() {
     onQueryChange('')
     setStatus(ALL)
     setPriority(ALL)
+    setSource(ALL)
   }
 
   function handleStatusChange(complaint, next) {
@@ -221,6 +204,23 @@ export default function ComplaintsView({
         <option value="Low">Low</option>
       </select>
 
+      <select
+        className="control toolbar__select"
+        value={source}
+        aria-label="Filter by source"
+        onChange={(event) => setSource(event.target.value)}
+      >
+        <option value={ALL}>All sources</option>
+        {SOURCES.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+        {complaints.some((complaint) => normaliseSource(complaint.source) === 'Unknown') ? (
+          <option value="Unknown">Unknown</option>
+        ) : null}
+      </select>
+
       <button
         className="sort-toggle"
         type="button"
@@ -255,8 +255,8 @@ export default function ComplaintsView({
       <EmptyState
         text={EMPTY_TEXT[view] ?? 'No complaints yet. Log your first one.'}
         action={
-          view === 'overview' || view === 'inbox'
-            ? { label: 'New ticket', variant: 'primary', onClick: onNew }
+          view === 'complaints' || view === 'inbox'
+            ? { label: 'New complaint', variant: 'primary', onClick: onNew }
             : undefined
         }
       />
@@ -274,7 +274,7 @@ export default function ComplaintsView({
     )
   } else {
     listContent = (
-      <>
+      <div className="panel list-panel">
         <p className="result-count">{countLabel}</p>
         <ComplaintTable
           complaints={visible}
@@ -283,7 +283,7 @@ export default function ComplaintsView({
           onStatusChange={handleStatusChange}
           onAssigneeChange={handleAssigneeChange}
         />
-      </>
+      </div>
     )
   }
 
@@ -296,7 +296,7 @@ export default function ComplaintsView({
     return (
       <section className="complaints">
         <div className="split">
-          <div className="split__list">
+          <div className="split__list panel split__panel">
             {toolbar}
             {scoped.length === 0 || visible.length === 0 ? (
               listContent
@@ -320,7 +320,7 @@ export default function ComplaintsView({
             {selected ? (
               renderDetail(selected)
             ) : (
-              <EmptyState text="No ticket selected." />
+              <EmptyState text="No complaint selected." />
             )}
           </div>
         </div>
@@ -328,12 +328,8 @@ export default function ComplaintsView({
     )
   }
 
-  const headline = view === 'overview' ? headlineFor(complaints) : null
-
   return (
     <section className="complaints">
-      {headline ? <h1 className="headline">{headline}</h1> : null}
-
       {toolbar}
       {listContent}
     </section>
